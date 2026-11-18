@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#12284e" />
+    <meta
+      name="description"
+      content="Panel de viaje para conductores y pasajeros: sigue la ruta, organiza paradas y recibe avisos."
+    />
+    <title>TránsitoApp · Tu viaje en ruta</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body data-mode="conductor">
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegación principal">
+        <a
+          class="brand"
+          href="#"
+          data-view="viaje"
+          aria-label="TránsitoApp, ir al estado del viaje"
+        >
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect
+                x="2"
+                y="2"
+                width="36"
+                height="36"
+                rx="12"
+                fill="currentColor"
+              />
+              <path
+                d="M14 8v7m12-7v7m-12 14v7m12-7v7M8 14h7m10 0h7M8 26h7m10 0h7"
+                stroke="#fff"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M17 8h6a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4Z"
+                fill="#fff"
+              />
+              <path d="M16 12h8v9h-8z" fill="currentColor" />
+              <circle cx="17.5" cy="27" r="1.5" fill="currentColor" />
+              <circle cx="22.5" cy="27" r="1.5" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="brand-copy"
+            ><strong>TránsitoApp</strong><small>Control de viaje</small></span
+          >
+        </a>
+
+        <div class="sidebar-label">TU RECORRIDO</div>
+        <nav class="sidebar-nav">
+          <button
+            class="nav-link is-active"
+            type="button"
+            data-view="viaje"
+            aria-current="page"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M4 19V7.8a2 2 0 0 1 1.1-1.8l6-3a2 2 0 0 1 1.8 0l6 3A2 2 0 0 1 20 7.8V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"
+              />
+              <path d="M9 21v-6h6v6M8 8h.01M16 8h.01" />
+            </svg>
+            <span id="nav-trip-label">Estado del viaje</span>
+            <span class="nav-trailing nav-live"><i></i>En curso</span>
+          </button>
+          <button class="nav-link" type="button" data-view="solicitar">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v18m9-9H3" />
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+            <span id="nav-stop-label">Solicitar parada</span>
+            <svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+          <button class="nav-link" type="button" data-view="confirmaciones">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M5 4h14a2 2 0 0 1 2 2v14l-4-2-5 2-5-2-4 2V6a2 2 0 0 1 2-2Z"
+              />
+              <path d="M8 9h8M8 13h5" />
+            </svg>
+            <span id="nav-history-label">Confirmaciones</span>
+            <span class="nav-count" id="pending-count" hidden>0</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="support-card">
+            <span class="support-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 18h.01M9.1 9a3 3 0 1 1 5.2 2c-1.2 1.2-2.3 1.5-2.3 3"
+                />
+                <circle cx="12" cy="12" r="9" />
+              </svg>
+            </span>
+            <div>
+              <strong>¿Necesitas ayuda?</strong>
+              <p>Tu viaje, más simple.</p>
+            </div>
+          </div>
+          <div class="sidebar-note">
+            <span class="status-dot"></span>Prototipo interactivo
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="topbar-context">
+            <span class="context-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3v4m0 10v4M3 12h4m10 0h4M5.6 5.6l2.8 2.8m7.2 7.2 2.8 2.8m0-12.8-2.8 2.8m-7.2 7.2-2.8 2.8"
+                />
+                <circle cx="12" cy="12" r="5" />
+              </svg>
+            </span>
+            <span
+              ><strong id="topbar-title">Tu viaje</strong
+              ><small id="topbar-subtitle"
+                >San Juan de Marcona <span>→</span> Lima</small
+              ></span
+            >
+          </div>
+          <div class="topbar-right">
+            <span class="topbar-date" id="today-label"></span>
+            <span class="user-avatar" id="user-avatar" aria-hidden="true"
+              >LM</span
+            >
+            <span class="user-summary"
+              ><strong id="user-name">Luis Manrique</strong
+              ><small id="user-role">Conductor</small></span
+            >
+            <button
+              class="role-toggle"
+              type="button"
+              id="role-toggle"
+              aria-pressed="false"
+              aria-label="Cambiar a la vista de pasajero"
+              title="Cambiar a la vista de pasajero"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="10" cy="7" r="4" />
+                <path d="M20 8v6m-3-3h6" />
+              </svg>
+              <span id="role-toggle-label">Vista pasajero</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="page-wrap">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow" id="page-eyebrow">
+                <span class="eyebrow-line"></span> VIAJE EN RUTA
+              </div>
+              <h1 id="page-title">Estado del viaje</h1>
+              <p id="page-description">
+                Tu viaje en curso: unidad, ruta y paradas solicitadas.
+              </p>
+            </div>
+            <button
+              class="button button-primary heading-action"
+              type="button"
+              data-view="solicitar"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5v14m-7-7h14" />
+              </svg>
+              <span id="heading-action-label">Solicitar parada</span>
+            </button>
+          </div>
+
+          <section
+            class="page-section is-active"
+            id="page-viaje"
+            data-page="viaje"
+            aria-labelledby="page-title"
+          >
+            <div class="welcome-panel">
+              <div class="welcome-copy">
+                <span class="welcome-pill"
+                  ><span class="pulse-dot"></span> VIAJE ACTIVO</span
+                >
+                <h2>Buen viaje, <span id="welcome-name">Luis.</span></h2>
+                <p id="welcome-description">
+                  Todo listo para tu recorrido. Aquí puedes organizar las
+                  bajadas y dar seguimiento a cada parada.
+                </p>
+                <div class="welcome-route">
+                  <span class="route-city">MARCONA</span>
+                  <span class="route-dashes" aria-hidden="true"
+                    ><i></i><i></i><i></i><i></i><i></i
+                  ></span>
+                  <span class="route-bus" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M5 16V6.8A2.8 2.8 0 0 1 7.8 4h8.4A2.8 2.8 0 0 1 19 6.8V16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"
+                      />
+                      <path d="M7 8h10v5H7zM8 18v2m8-2v2" />
+                      <circle cx="8.5" cy="15.5" r="1" />
+                      <circle cx="15.5" cy="15.5" r="1" />
+                    </svg>
+                  </span>
+                  <span class="route-dashes" aria-hidden="true"
+                    ><i></i><i></i><i></i><i></i><i></i
+                  ></span>
+                  <span class="route-city">LIMA</span>
+                </div>
+              </div>
+              <div class="welcome-art" aria-hidden="true">
+                <div class="art-orbit art-orbit-one"></div>
+                <div class="art-orbit art-orbit-two"></div>
+                <svg class="art-road" viewBox="0 0 260 170" fill="none">
+                  <path
+                    d="M23 137c38 0 32-83 77-83 40 0 25 62 68 62s39-56 69-56"
+                    stroke="rgba(255,255,255,.3)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-dasharray="2 9"
+                  />
+                  <path
+                    d="M23 137c38 0 32-83 77-83 40 0 25 62 68 62s39-56 69-56"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <circle
+                    cx="24"
+                    cy="137"
+                    r="8"
+                    fill="white"
+                    fill-opacity=".24"
+                  />
+                  <circle cx="24" cy="137" r="4" fill="white" />
+                  <circle
+                    cx="237"
+                    cy="60"
+                    r="8"
+                    fill="white"
+                    fill-opacity=".24"
+                  />
+                  <circle cx="237" cy="60" r="4" fill="white" />
+                  <g transform="translate(151 88) rotate(-20)">
+                    <rect width="38" height="29" rx="9" fill="white" />
+                    <path
+                      d="M9 7h20a3 3 0 0 1 3 3v8H6v-8a3 3 0 0 1 3-3Z"
+                      fill="#235CE8"
+                    />
+                    <circle cx="11" cy="22" r="3" fill="#142545" />
+                    <circle cx="27" cy="22" r="3" fill="#142545" />
+                  </g>
+                </svg>
+                <span class="art-label art-label-start"
+                  >SALIDA <strong>MARCONA</strong></span
+                >
+                <span class="art-label art-label-end"
+                  >DESTINO <strong>LIMA</strong></span
+                >
+                <span class="art-spark art-spark-one">✦</span
+                ><span class="art-spark art-spark-two">✧</span>
+              </div>
+            </div>
+
+            <div class="trip-overview">
+              <article class="trip-fact driver-fact">
+                <span class="fact-icon fact-icon-blue" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="3.2" />
+                    <path d="M5.5 20c.6-3.1 2.8-5 6.5-5s5.9 1.9 6.5 5" />
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                  </svg>
+                </span>
+                <div>
+                  <span class="fact-label">CONDUCTOR</span
+                  ><strong>Luis Manrique</strong><small>Código JT-65789</small>
+                </div>
+              </article>
+              <article class="trip-fact unit-fact">
+                <span class="fact-icon fact-icon-violet" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M5 16V6.8A2.8 2.8 0 0 1 7.8 4h8.4A2.8 2.8 0 0 1 19 6.8V16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"
+                    />
+                    <path d="M7 8h10v5H7zM8 18v2m8-2v2" />
+                    <circle cx="8.5" cy="15.5" r="1" />
+                    <circle cx="15.5" cy="15.5" r="1" />
+                  </svg>
+                </span>
+                <div>
+                  <span class="fact-label">UNIDAD</span><strong>532</strong
+                  ><small>Bus asignado</small>
+                </div>
+              </article>
+              <article class="trip-fact route-fact">
+                <span class="fact-icon fact-icon-green" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="6" cy="18" r="2.5" />
+                    <circle cx="18" cy="6" r="2.5" />
+                    <path d="M8 18h2.5a3 3 0 0 0 3-3v-3a3 3 0 0 1 3-3H18" />
+                  </svg>
+                </span>
+                <div>
+                  <span class="fact-label">RUTA ASIGNADA</span
+                  ><strong
+                    >Marcona <span class="inline-arrow">→</span> Lima</strong
+                  ><small>En recorrido</small>
+                </div>
+              </article>
+              <div class="trip-status">
+                <span class="status-dot"></span><span>Iniciado</span>
+              </div>
+            </div>
+
+            <section
+              class="panel simulation-panel"
+              aria-labelledby="simulation-title"
+            >
+              <div class="simulation-heading">
+                <div>
+                  <div class="section-kicker">
+                    SIMULACIÓN DEL RECORRIDO · PERÚ
+                  </div>
+                  <h2 id="simulation-title">
+                    San Juan de Marcona <span>→</span> Lima
+                  </h2>
+                  <p>
+                    Recorrido esquemático por las rutas PE-30 y Panamericana Sur
+                    (PE-1S).
+                  </p>
+                </div>
+                <span
+                  class="simulation-status"
+                  id="simulation-status"
+                  data-state="idle"
+                  ><i></i
+                  ><span id="simulation-status-label"
+                    >Listo para iniciar</span
+                  ></span
+                >
+              </div>
+
+              <div
+                class="simulation-track"
+                id="simulation-track"
+                aria-label="Recorrido simulado desde San Juan de Marcona hacia Lima"
+              >
+                <span class="simulation-track-line" aria-hidden="true"></span>
+                <span
+                  class="simulation-track-progress"
+                  id="simulation-track-progress"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="simulation-bus-marker"
+                  id="simulation-bus-marker"
+                  aria-hidden="true"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M5 16V6.8A2.8 2.8 0 0 1 7.8 4h8.4A2.8 2.8 0 0 1 19 6.8V16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"
+                    />
+                    <path d="M7 8h10v5H7zM8 18v2m8-2v2" />
+                    <circle cx="8.5" cy="15.5" r="1" />
+                    <circle cx="15.5" cy="15.5" r="1" />
+                  </svg>
+                </span>
+                <ol class="simulation-stops">
+                  <li class="simulation-stop is-start" data-stop-index="0">
+                    <span class="simulation-stop-dot"></span
+                    ><span
+                      ><strong>San Juan de Marcona</strong
+                      ><small>Salida</small></span
+                    >
+                  </li>
+                  <li class="simulation-stop" data-stop-index="1">
+                    <span class="simulation-stop-dot"></span
+                    ><span><strong>Nazca</strong><small>Ica</small></span>
+                  </li>
+                  <li class="simulation-stop" data-stop-index="2">
+                    <span class="simulation-stop-dot"></span
+                    ><span><strong>Palpa</strong><small>Ica</small></span>
+                  </li>
+                  <li class="simulation-stop" data-stop-index="3">
+                    <span class="simulation-stop-dot"></span
+                    ><span><strong>Ica</strong><small>Ica</small></span>
+                  </li>
+                  <li class="simulation-stop" data-stop-index="4">
+                    <span class="simulation-stop-dot"></span
+                    ><span><strong>Pisco</strong><small>Ica</small></span>
+                  </li>
+                  <li class="simulation-stop" data-stop-index="5">
+                    <span class="simulation-stop-dot"></span
+                    ><span><strong>Chilca</strong><small>Lima</small></span>
+                  </li>
+                  <li class="simulation-stop is-end" data-stop-index="6">
+                    <span class="simulation-stop-dot"></span
+                    ><span><strong>Lima</strong><small>Destino</small></span>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="simulation-footer">
+                <div class="simulation-current">
+                  <span class="simulation-label">TRAMO ACTUAL</span>
+                  <strong id="simulation-current-stop"
+                    >San Juan de Marcona</strong
+                  >
+                  <small id="simulation-current-leg">Lista para salir</small>
+                </div>
+                <div class="simulation-progress-block">
+                  <div class="simulation-progress-heading">
+                    <span>Avance del recorrido</span
+                    ><strong id="simulation-progress-label">0%</strong>
+                  </div>
+                  <div
+                    class="simulation-progress-bar"
+                    id="simulation-progress-bar"
+                    role="progressbar"
+                    aria-label="Avance de la simulación"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                  >
+                    <span id="simulation-progress-fill"></span>
+                  </div>
+                </div>
+                <div class="simulation-controls">
+                  <button
+                    class="button button-primary"
+                    type="button"
+                    id="simulation-toggle"
+                  >
+                    Iniciar simulación
+                  </button>
+                  <button
+                    class="simulation-reset"
+                    type="button"
+                    id="simulation-reset"
+                    aria-label="Reiniciar simulación"
+                    title="Reiniciar simulación"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.5" />
+                      <path d="M4 4v4.5h4.5" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <div class="role-tools-grid" data-role-panel="conductor">
+              <section
+                class="panel driver-tool-panel"
+                aria-labelledby="driver-checklist-title"
+              >
+                <div class="panel-heading">
+                  <div>
+                    <div class="section-kicker">HERRAMIENTAS DEL CONDUCTOR</div>
+                    <h2 id="driver-checklist-title">Antes de salir</h2>
+                    <p>Marca lo que ya revisaste para comenzar el viaje.</p>
+                  </div>
+                  <span class="count-bubble" id="driver-checklist-count"
+                    >0/3</span
+                  >
+                </div>
+                <div
+                  class="driver-checklist-progress"
+                  id="driver-checklist-progress"
+                  role="progressbar"
+                  aria-label="Lista previa al viaje"
+                  aria-valuemin="0"
+                  aria-valuemax="3"
+                  aria-valuenow="0"
+                >
+                  <span id="driver-checklist-fill"></span>
+                </div>
+                <div class="driver-checklist">
+                  <label class="checklist-item"
+                    ><input
+                      type="checkbox"
+                      value="documentos"
+                      data-driver-checklist
+                    /><span class="checklist-copy"
+                      ><strong>Documentos y licencia</strong
+                      ><small>Documentación a la mano</small></span
+                    ></label
+                  >
+                  <label class="checklist-item"
+                    ><input
+                      type="checkbox"
+                      value="unidad"
+                      data-driver-checklist
+                    /><span class="checklist-copy"
+                      ><strong>Revisión de la unidad</strong
+                      ><small>Luces, llantas y combustible</small></span
+                    ></label
+                  >
+                  <label class="checklist-item"
+                    ><input
+                      type="checkbox"
+                      value="pasajeros"
+                      data-driver-checklist
+                    /><span class="checklist-copy"
+                      ><strong>Pasajeros y paradas</strong
+                      ><small>Confirma el conteo antes de salir</small></span
+                    ></label
+                  >
+                </div>
+              </section>
+
+              <section
+                class="panel driver-tool-panel road-panel"
+                aria-labelledby="road-condition-title"
+              >
+                <div class="panel-heading">
+                  <div>
+                    <div class="section-kicker">SEGUIMIENTO DE RUTA</div>
+                    <h2 id="road-condition-title">Estado de la vía</h2>
+                    <p>Actualiza la condición que observas en el recorrido.</p>
+                  </div>
+                </div>
+                <div
+                  class="road-condition-options"
+                  id="road-condition-options"
+                  role="group"
+                  aria-label="Seleccionar estado de la vía"
+                >
+                  <button
+                    class="road-condition is-selected"
+                    type="button"
+                    data-road-condition="clear"
+                    aria-pressed="true"
+                  >
+                    <i></i>Despejada
+                  </button>
+                  <button
+                    class="road-condition"
+                    type="button"
+                    data-road-condition="caution"
+                    aria-pressed="false"
+                  >
+                    <i></i>Precaución
+                  </button>
+                  <button
+                    class="road-condition"
+                    type="button"
+                    data-road-condition="traffic"
+                    aria-pressed="false"
+                  >
+                    <i></i>Tráfico
+                  </button>
+                </div>
+                <p class="road-condition-note" id="road-condition-note">
+                  Vía despejada · sin novedades registradas.
+                </p>
+              </section>
+            </div>
+
+            <section
+              class="panel passenger-tools-panel"
+              data-role-panel="pasajero"
+              aria-labelledby="passenger-tools-title"
+              hidden
+            >
+              <div class="panel-heading">
+                <div>
+                  <div class="section-kicker">TU VIAJE COMO PASAJERO</div>
+                  <h2 id="passenger-tools-title">Prepara tu llegada</h2>
+                  <p>
+                    Elige dónde bajas y activa un aviso para acercarte con
+                    calma.
+                  </p>
+                </div>
+              </div>
+              <div class="passenger-tools-grid">
+                <label
+                  class="passenger-destination-field"
+                  for="passenger-destination"
+                >
+                  <span>¿Dónde bajarás?</span>
+                  <select class="passenger-select" id="passenger-destination">
+                    <option value="">Selecciona tu destino</option>
+                    <option value="Nazca">Nazca</option>
+                    <option value="Palpa">Palpa</option>
+                    <option value="Ica">Ica</option>
+                    <option value="Pisco">Pisco</option>
+                    <option value="Chilca">Chilca</option>
+                    <option value="Lima">Lima</option>
+                  </select>
+                </label>
+                <label class="passenger-reminder" for="passenger-reminder">
+                  <input type="checkbox" id="passenger-reminder" disabled />
+                  <span class="reminder-switch" aria-hidden="true"></span>
+                  <span
+                    ><strong>Avisarme al acercarme</strong
+                    ><small>Recibe un aviso durante la simulación.</small></span
+                  >
+                </label>
+                <div class="passenger-request-area">
+                  <button
+                    class="button button-secondary"
+                    type="button"
+                    id="passenger-request-stop"
+                    disabled
+                  >
+                    Solicitar esta parada
+                  </button>
+                  <small id="passenger-destination-note"
+                    >Selecciona tu destino para ver las opciones.</small
+                  >
+                </div>
+              </div>
+            </section>
+
+            <div class="dashboard-grid">
+              <section
+                class="panel upcoming-panel"
+                aria-labelledby="upcoming-title"
+              >
+                <div class="panel-heading">
+                  <div>
+                    <div class="section-kicker" id="upcoming-kicker">
+                      GESTIÓN DE VIAJE
+                    </div>
+                    <h2 id="upcoming-title">Próximas bajadas</h2>
+                    <p id="upcoming-description">
+                      Ten a la vista las paradas que debes atender.
+                    </p>
+                  </div>
+                  <span class="count-bubble" id="upcoming-count">0</span>
+                </div>
+                <div
+                  class="upcoming-list"
+                  id="upcoming-list"
+                  aria-live="polite"
+                ></div>
+                <div class="empty-state upcoming-empty" id="upcoming-empty">
+                  <span class="empty-icon empty-icon-blue" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>
+                  </span>
+                  <h3>Aún no hay paradas solicitadas</h3>
+                  <p>
+                    Cuando llegue una solicitud, la verás aquí para tenerla
+                    presente durante el recorrido.
+                  </p>
+                  <button
+                    class="text-button"
+                    type="button"
+                    data-view="solicitar"
+                  >
+                    Crear una solicitud <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+                <div class="attended-summary" id="attended-summary" hidden>
+                  <span class="attended-summary-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>
+                  </span>
+                  <span
+                    ><strong id="attended-summary-title"
+                      >0 paradas atendidas</strong
+                    ><small
+                      >Buen trabajo. El viaje sigue en marcha.</small
+                    ></span
+                  >
+                  <button
+                    class="icon-button"
+                    type="button"
+                    data-view="confirmaciones"
+                    aria-label="Ver confirmaciones"
+                    title="Ver confirmaciones"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M5 12h14m-6-6 6 6-6 6" />
+                    </svg>
+                  </button>
+                </div>
+              </section>
+
+              <aside
+                class="panel route-panel"
+                aria-labelledby="route-panel-title"
+              >
+                <div class="route-panel-top">
+                  <span class="section-kicker">TU RECORRIDO</span>
+                  <span class="route-panel-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z"
+                      />
+                      <circle cx="12" cy="10" r="2.2" />
+                    </svg>
+                  </span>
+                </div>
+                <h2 id="route-panel-title">Ruta Marcona – Lima</h2>
+                <p class="route-panel-caption">Paradas del recorrido</p>
+                <ol class="route-stops">
+                  <li class="route-stop is-start">
+                    <span class="stop-marker"><i></i></span
+                    ><span
+                      ><strong>San Juan de Marcona</strong
+                      ><small>Punto de partida</small></span
+                    ><span class="stop-tag">SALIDA</span>
+                  </li>
+                  <li>
+                    <span class="stop-marker"><i></i></span
+                    ><span
+                      ><strong>Nazca</strong
+                      ><small>Parada disponible</small></span
+                    >
+                  </li>
+                  <li>
+                    <span class="stop-marker"><i></i></span
+                    ><span
+                      ><strong>Palpa</strong
+                      ><small>Parada disponible</small></span
+                    >
+                  </li>
+                  <li>
+                    <span class="stop-marker"><i></i></span
+                    ><span
+                      ><strong>Ica</strong
+                      ><small>Parada disponible</small></span
+                    >
+                  </li>
+                  <li>
+                    <span class="stop-marker"><i></i></span
+                    ><span
+                      ><strong>Pisco</strong
+                      ><small>Parada disponible</small></span
+                    >
+                  </li>
+                  <li>
+                    <span class="stop-marker"><i></i></span
+                    ><span
+                      ><strong>Chilca</strong
+                      ><small>Parada disponible</small></span
+                    >
+                  </li>
+                  <li class="route-stop is-end">
+                    <span class="stop-marker"><i></i></span
+                    ><span
+                      ><strong>Lima</strong><small>Destino final</small></span
+                    >
+                  </li>
+                </ol>
+                <div class="route-reference">
+                  <span class="route-reference-dot"></span>Recorrido de
+                  referencia
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section
+            class="page-section"
+            id="page-solicitar"
+            data-page="solicitar"
+            aria-labelledby="request-heading"
+            hidden
+          >
+            <div class="request-layout">
+              <div class="request-intro">
+                <div class="request-intro-top">
+                  <span class="welcome-pill"
+                    ><span class="pulse-dot"></span> VIAJE EN RUTA</span
+                  >
+                  <span class="intro-route">Marcona <span>→</span> Lima</span>
+                </div>
+                <h2 id="request-intro-title">
+                  Una parada a tiempo hace el viaje más seguro.
+                </h2>
+                <p id="request-intro-copy">
+                  Indica dónde bajarán los pasajeros y cuántas personas son. La
+                  solicitud quedará registrada para que puedas seguir su estado.
+                </p>
+                <div
+                  class="request-steps"
+                  aria-label="Pasos para solicitar una parada"
+                >
+                  <div class="request-step is-current">
+                    <span>1</span>
+                    <div>
+                      <strong id="request-step-one-title"
+                        >Elige una parada</strong
+                      ><small id="request-step-one-copy"
+                        >Selecciona un punto de la ruta</small
+                      >
+                    </div>
+                  </div>
+                  <div class="step-connector"></div>
+                  <div class="request-step">
+                    <span>2</span>
+                    <div>
+                      <strong id="request-step-two-title"
+                        >Indica pasajeros</strong
+                      ><small id="request-step-two-copy"
+                        >Cuéntalos antes de continuar</small
+                      >
+                    </div>
+                  </div>
+                  <div class="step-connector"></div>
+                  <div class="request-step">
+                    <span>3</span>
+                    <div>
+                      <strong id="request-step-three-title"
+                        >Envía la solicitud</strong
+                      ><small id="request-step-three-copy"
+                        >Podrás seguir su estado</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="intro-decoration" aria-hidden="true">
+                  <span class="decoration-line"></span
+                  ><span class="decoration-stop"></span
+                  ><span class="decoration-stop decoration-stop-two"></span
+                  ><span class="decoration-bus">✦</span>
+                </div>
+              </div>
+
+              <div class="form-panel">
+                <div class="form-panel-heading">
+                  <span class="form-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 3v18m9-9H3" />
+                      <circle cx="12" cy="12" r="9" />
+                    </svg>
+                  </span>
+                  <div>
+                    <div class="section-kicker" id="request-kicker">
+                      NUEVA SOLICITUD
+                    </div>
+                    <h2 id="request-heading">Solicitar parada</h2>
+                  </div>
+                </div>
+                <p class="form-lead" id="request-form-lead">
+                  Completa los datos para avisar al conductor.
+                </p>
+                <form id="request-form" novalidate>
+                  <label class="field-label" for="stop-select"
+                    ><span id="stop-question">¿Dónde bajarán?</span>
+                    <span class="required-mark">*</span></label
+                  >
+                  <div class="select-wrap">
+                    <span class="field-leading-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path
+                          d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z"
+                        />
+                        <circle cx="12" cy="10" r="2.2" />
+                      </svg>
+                    </span>
+                    <select
+                      id="stop-select"
+                      name="stop"
+                      required
+                      aria-describedby="stop-help"
+                    >
+                      <option value="">Selecciona una parada</option>
+                      <option value="Nazca">Nazca</option>
+                      <option value="Palpa">Palpa</option>
+                      <option value="Ica">Ica</option>
+                      <option value="Pisco">Pisco</option>
+                      <option value="Chilca">Chilca</option>
+                    </select>
+                    <svg
+                      class="select-chevron"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="m7 10 5 5 5-5" />
+                    </svg>
+                  </div>
+                  <p class="field-hint" id="stop-help">
+                    Elige el punto donde bajarán los pasajeros.
+                  </p>
+
+                  <div class="passenger-label-row" id="passenger-label-row">
+                    <label class="field-label" for="passenger-count"
+                      >¿Cuántos pasajeros bajan?
+                      <span class="required-mark">*</span></label
+                    ><span class="field-optional">De 1 a 40</span>
+                  </div>
+                  <div class="number-stepper" id="passenger-number-stepper">
+                    <button
+                      class="stepper-button"
+                      type="button"
+                      id="passenger-decrease"
+                      aria-label="Quitar un pasajero"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 12h14" />
+                      </svg>
+                    </button>
+                    <input
+                      id="passenger-count"
+                      name="passengers"
+                      type="number"
+                      min="1"
+                      max="40"
+                      step="1"
+                      value="1"
+                      inputmode="numeric"
+                      required
+                      aria-describedby="passenger-help"
+                    />
+                    <span class="passenger-unit" id="passenger-unit"
+                      >pasajero</span
+                    >
+                    <button
+                      class="stepper-button stepper-button-plus"
+                      type="button"
+                      id="passenger-increase"
+                      aria-label="Agregar un pasajero"
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 5v14m-7-7h14" />
+                      </svg>
+                    </button>
+                  </div>
+                  <p class="field-hint" id="passenger-help">
+                    Usa + y − para ajustar la cantidad.
+                  </p>
+                  <p class="form-error" id="form-error" role="alert" hidden></p>
+                  <button
+                    class="button button-primary button-submit"
+                    type="submit"
+                    id="submit-request"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 12h15m-6-6 6 6-6 6" />
+                    </svg>
+                    Enviar solicitud
+                  </button>
+                  <div class="secure-note">
+                    <span aria-hidden="true">✓</span
+                    ><span id="request-secure-note"
+                      >Revisa la parada y la cantidad antes de enviar.</span
+                    >
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="page-section"
+            id="page-confirmaciones"
+            data-page="confirmaciones"
+            aria-labelledby="history-heading"
+            hidden
+          >
+            <div class="history-banner">
+              <div class="history-banner-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m5 12 4 4L19 6" />
+                  <path d="M12 22a10 10 0 1 0-10-10" />
+                </svg>
+              </div>
+              <div>
+                <span class="section-kicker" id="history-banner-kicker"
+                  >SEGUIMIENTO DE PARADAS</span
+                >
+                <h2>Todo bajo control.</h2>
+                <p id="history-banner-copy">
+                  Consulta tus solicitudes y revisa cuáles ya fueron atendidas.
+                </p>
+              </div>
+              <div class="history-total">
+                <strong id="history-total">0</strong
+                ><span>solicitudes<br />en este viaje</span>
+              </div>
+            </div>
+            <section
+              class="panel history-panel"
+              aria-labelledby="history-heading"
+            >
+              <div class="history-panel-head">
+                <div>
+                  <div class="section-kicker" id="history-kicker">
+                    VIAJE EN RUTA
+                  </div>
+                  <h2 id="history-heading">Confirmaciones</h2>
+                  <p id="history-description">
+                    Tu última parada solicitada y tus reportes enviados.
+                  </p>
+                </div>
+                <button
+                  class="button button-secondary"
+                  type="button"
+                  data-view="solicitar"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 5v14m-7-7h14" />
+                  </svg>
+                  Nueva solicitud
+                </button>
+              </div>
+              <div
+                class="filter-row"
+                role="group"
+                aria-label="Filtrar solicitudes"
+              >
+                <button
+                  class="filter-chip is-selected"
+                  type="button"
+                  data-filter="todas"
+                  aria-pressed="true"
+                >
+                  Todas <span id="filter-total-all">0</span>
+                </button>
+                <button
+                  class="filter-chip"
+                  type="button"
+                  data-filter="pendientes"
+                  aria-pressed="false"
+                >
+                  Pendientes <span id="filter-total-pending">0</span>
+                </button>
+                <button
+                  class="filter-chip"
+                  type="button"
+                  data-filter="atendidas"
+                  aria-pressed="false"
+                >
+                  Atendidas <span id="filter-total-attended">0</span>
+                </button>
+              </div>
+              <div
+                class="history-list"
+                id="history-list"
+                aria-live="polite"
+              ></div>
+              <div class="empty-state history-empty" id="history-empty">
+                <span class="empty-icon empty-icon-lilac" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M6 4h12a2 2 0 0 1 2 2v15l-4-2-4 2-4-2-4 2V6a2 2 0 0 1 2-2Z"
+                    />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </span>
+                <h3>Aún no hay reportes</h3>
+                <p>
+                  Cuando envíes una solicitud de parada, aparecerá aquí con su
+                  seguimiento.
+                </p>
+                <button
+                  class="button button-primary empty-action"
+                  type="button"
+                  data-view="solicitar"
+                >
+                  Solicitar una parada
+                </button>
+              </div>
+            </section>
+          </section>
+
+          <footer class="page-footer">
+            <span class="footer-mark" aria-hidden="true">✦</span>
+            <span
+              >Datos de demostración · guardados solo en este navegador.</span
+            >
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <div
+      class="toast"
+      id="toast"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span class="toast-check" aria-hidden="true">✓</span>
+      <span class="toast-copy"
+        ><strong id="toast-title">Listo</strong
+        ><small id="toast-message"></small
+      ></span>
+      <button
+        class="toast-close"
+        type="button"
+        id="toast-close"
+        aria-label="Cerrar aviso"
+      >
+        ×
+      </button>
+    </div>
+  </body>
+</html>
