@@ -27,8 +27,7 @@
     viaje: {
       eyebrow: "TU VIAJE",
       title: "Mi viaje",
-      description:
-        "Sigue el recorrido, prepara tu parada y recibe un aviso al acercarte.",
+      description: "Consulta el recorrido y prepara tu bajada.",
       context: "Mi viaje",
     },
     solicitar: {
@@ -44,7 +43,6 @@
       context: "Mis avisos",
     },
   };
-  const SIMULATION_DURATION = 48000;
   const PASSENGER_DESTINATIONS = [
     "Nazca",
     "Palpa",
@@ -118,19 +116,6 @@
     toast: el("#toast"),
     toastTitle: el("#toast-title"),
     toastMessage: el("#toast-message"),
-    simulationStatus: el("#simulation-status"),
-    simulationStatusLabel: el("#simulation-status-label"),
-    simulationTrack: el("#simulation-track"),
-    simulationTrackProgress: el("#simulation-track-progress"),
-    simulationBusMarker: el("#simulation-bus-marker"),
-    simulationStops: all(".simulation-stop"),
-    simulationCurrentStop: el("#simulation-current-stop"),
-    simulationCurrentLeg: el("#simulation-current-leg"),
-    simulationProgressLabel: el("#simulation-progress-label"),
-    simulationProgressBar: el("#simulation-progress-bar"),
-    simulationProgressFill: el("#simulation-progress-fill"),
-    simulationToggle: el("#simulation-toggle"),
-    simulationReset: el("#simulation-reset"),
     driverPanels: all('[data-role-panel="conductor"]'),
     passengerPanels: all('[data-role-panel="pasajero"]'),
     driverChecklist: all("[data-driver-checklist]"),
@@ -140,151 +125,13 @@
     roadConditions: all("[data-road-condition]"),
     roadConditionNote: el("#road-condition-note"),
     passengerDestination: el("#passenger-destination"),
-    passengerReminder: el("#passenger-reminder"),
     passengerRequestStop: el("#passenger-request-stop"),
     passengerDestinationNote: el("#passenger-destination-note"),
   };
   let state = loadState();
   let activeFilter = "todas";
   let toastTimer = null;
-  let simulationProgress = 0;
-  let simulationState = "idle";
-  let simulationStartedAt = 0;
-  let simulationProgressAtStart = 0;
-  let simulationFrame = 0;
-  let passengerReminderSent = false;
   let activeView = "viaje";
-
-  function updateSimulationDisplay() {
-    const stops = refs.simulationStops.map(
-      (stop) => stop.querySelector("strong").textContent,
-    );
-    const lastIndex = stops.length - 1;
-    const segmentPosition = simulationProgress * lastIndex;
-    const percent = Math.round(simulationProgress * 100);
-    const mobileLayout = window.matchMedia("(max-width: 740px)").matches;
-
-    refs.simulationProgressLabel.textContent = percent + "%";
-    refs.simulationProgressBar.setAttribute("aria-valuenow", String(percent));
-    refs.simulationProgressFill.style.width = percent + "%";
-    refs.simulationStatus.dataset.state = simulationState;
-    refs.simulationStatusLabel.textContent = {
-      idle: "Listo para iniciar",
-      running: "En marcha",
-      paused: "En pausa",
-      complete: "Recorrido completado",
-    }[simulationState];
-    refs.simulationToggle.textContent = {
-      idle: "Iniciar simulación",
-      running: "Pausar",
-      paused: "Reanudar",
-      complete: "Iniciar de nuevo",
-    }[simulationState];
-
-    refs.simulationStops.forEach((stop, index) => {
-      stop.classList.toggle(
-        "is-passed",
-        simulationProgress >= 1 || index <= Math.floor(segmentPosition),
-      );
-      stop.classList.toggle(
-        "is-current",
-        index === Math.min(lastIndex, Math.ceil(segmentPosition)),
-      );
-    });
-
-    if (simulationProgress >= 1) {
-      refs.simulationCurrentStop.textContent = stops[lastIndex];
-      refs.simulationCurrentLeg.textContent = "Destino alcanzado · Lima, Perú";
-    } else if (simulationProgress === 0) {
-      refs.simulationCurrentStop.textContent = stops[0];
-      refs.simulationCurrentLeg.textContent = "Punto de partida · Perú";
-    } else {
-      const fromIndex = Math.min(lastIndex - 1, Math.floor(segmentPosition));
-      const toIndex = fromIndex + 1;
-      const shortFrom = fromIndex === 0 ? "Marcona" : stops[fromIndex];
-      refs.simulationCurrentStop.textContent =
-        shortFrom + " → " + stops[toIndex];
-      refs.simulationCurrentLeg.textContent =
-        "Avanzando hacia " + stops[toIndex];
-    }
-
-    if (mobileLayout) {
-      const lineLength = Math.max(0, refs.simulationTrack.clientHeight - 32);
-      refs.simulationTrackProgress.style.width = "2px";
-      refs.simulationTrackProgress.style.height =
-        lineLength * simulationProgress + "px";
-      refs.simulationBusMarker.style.left = "6px";
-      refs.simulationBusMarker.style.top =
-        16 + lineLength * simulationProgress + "px";
-    } else {
-      refs.simulationTrackProgress.style.width =
-        85.72 * simulationProgress + "%";
-      refs.simulationTrackProgress.style.height = "2px";
-      refs.simulationBusMarker.style.left =
-        7.14 + 85.72 * simulationProgress + "%";
-      refs.simulationBusMarker.style.top = "12px";
-    }
-
-    if (
-      simulationState === "running" &&
-      document.body.dataset.mode === "pasajero" &&
-      state.passengerReminder &&
-      state.passengerDestination &&
-      !passengerReminderSent
-    ) {
-      const destinationIndex = stops.indexOf(state.passengerDestination);
-      if (destinationIndex > 0) {
-        const reminderPoint = Math.max(0, (destinationIndex - 0.2) / lastIndex);
-        if (simulationProgress >= reminderPoint) {
-          passengerReminderSent = true;
-          showToast(
-            "Tu parada se aproxima",
-            "Prepárate para bajar en " + state.passengerDestination + ".",
-          );
-        }
-      }
-    }
-  }
-
-  function advanceSimulation() {
-    if (simulationState !== "running") return;
-    const elapsed =
-      simulationProgressAtStart * SIMULATION_DURATION +
-      performance.now() -
-      simulationStartedAt;
-    simulationProgress = Math.min(1, elapsed / SIMULATION_DURATION);
-    if (simulationProgress >= 1) simulationState = "complete";
-    updateSimulationDisplay();
-    if (simulationState === "running")
-      simulationFrame = window.requestAnimationFrame(advanceSimulation);
-  }
-
-  function toggleSimulation() {
-    if (simulationState === "running") {
-      simulationState = "paused";
-      window.cancelAnimationFrame(simulationFrame);
-      updateSimulationDisplay();
-      return;
-    }
-    if (simulationState === "complete") {
-      simulationProgress = 0;
-      passengerReminderSent = false;
-    }
-    simulationProgressAtStart = simulationProgress;
-    simulationStartedAt = performance.now();
-    simulationState = "running";
-    updateSimulationDisplay();
-    simulationFrame = window.requestAnimationFrame(advanceSimulation);
-  }
-
-  function resetSimulation() {
-    window.cancelAnimationFrame(simulationFrame);
-    simulationProgress = 0;
-    simulationProgressAtStart = 0;
-    simulationState = "idle";
-    passengerReminderSent = false;
-    updateSimulationDisplay();
-  }
 
   function loadState() {
     try {
@@ -302,7 +149,6 @@
         )
           ? saved.passengerDestination
           : "",
-        passengerReminder: saved.passengerReminder === true,
       };
     } catch {
       return {
@@ -310,7 +156,6 @@
         checklist: [],
         roadCondition: "clear",
         passengerDestination: "",
-        passengerReminder: false,
       };
     }
   }
@@ -419,7 +264,7 @@
       ? PASSENGER_NAME + "."
       : "Luis.";
     refs.welcomeDescription.textContent = passengerMode
-      ? "Sigue el recorrido, prepara tu parada y recibe un aviso al acercarte."
+      ? "Sigue tu recorrido y consulta el estado de las paradas solicitadas."
       : "Todo listo para tu recorrido. Aquí puedes organizar las bajadas y dar seguimiento a cada parada.";
     refs.headingActionLabel.textContent = passengerMode
       ? "Pedir mi parada"
@@ -569,18 +414,16 @@
   function updatePassengerTools() {
     const destination = state.passengerDestination;
     refs.passengerDestination.value = destination;
-    refs.passengerReminder.checked = state.passengerReminder;
-    refs.passengerReminder.disabled = !destination;
     refs.passengerRequestStop.disabled = !destination;
 
     if (!destination) {
       refs.passengerRequestStop.textContent = "Solicitar esta parada";
       refs.passengerDestinationNote.textContent =
-        "Selecciona un destino para activar tu aviso.";
+        "Selecciona un destino para solicitar la parada.";
     } else if (destination === "Lima") {
       refs.passengerRequestStop.textContent = "Ver mi recorrido";
       refs.passengerDestinationNote.textContent =
-        "Lima es el destino final; sigue el recorrido y activa tu aviso.";
+        "Lima es el destino final de este recorrido.";
     } else {
       refs.passengerRequestStop.textContent = "Solicitar esta parada";
       refs.passengerDestinationNote.textContent =
@@ -594,7 +437,6 @@
     setView(activeView, false);
     updateDriverTools();
     updatePassengerTools();
-    updateSimulationDisplay();
   }
 
   function requestPassengerStop() {
@@ -882,9 +724,6 @@
     window.clearTimeout(toastTimer);
     refs.toast.classList.remove("is-visible");
   });
-  refs.simulationToggle.addEventListener("click", toggleSimulation);
-  refs.simulationReset.addEventListener("click", resetSimulation);
-  window.addEventListener("resize", updateSimulationDisplay);
   refs.roleToggle.addEventListener("click", toggleRoleMode);
   refs.driverChecklist.forEach((input) =>
     input.addEventListener("change", () => {
@@ -910,17 +749,8 @@
   );
   refs.passengerDestination.addEventListener("change", () => {
     state.passengerDestination = refs.passengerDestination.value;
-    passengerReminderSent = false;
     saveState();
     updatePassengerTools();
-    updateSimulationDisplay();
-  });
-  refs.passengerReminder.addEventListener("change", () => {
-    state.passengerReminder = refs.passengerReminder.checked;
-    passengerReminderSent = false;
-    saveState();
-    updatePassengerTools();
-    updateSimulationDisplay();
   });
   refs.passengerRequestStop.addEventListener("click", requestPassengerStop);
 
@@ -928,5 +758,4 @@
   render();
   updateDriverTools();
   updatePassengerTools();
-  updateSimulationDisplay();
 })();

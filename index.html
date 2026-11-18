@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#12284e" />
     <meta
       name="description"
-      content="Panel de viaje para conductores y pasajeros: sigue la ruta, organiza paradas y recibe avisos."
+      content="Panel de viaje para conductores y pasajeros: sigue la ruta, organiza paradas y consulta las solicitudes."
     />
     <title>TránsitoApp · Tu viaje en ruta</title>
     <link rel="stylesheet" href="styles.css" />
@@ -104,9 +104,6 @@
               <strong>¿Necesitas ayuda?</strong>
               <p>Tu viaje, más simple.</p>
             </div>
-          </div>
-          <div class="sidebar-note">
-            <span class="status-dot"></span>Prototipo interactivo
           </div>
         </div>
       </aside>
@@ -321,138 +318,74 @@
             </div>
 
             <section
-              class="panel simulation-panel"
-              aria-labelledby="simulation-title"
+              class="panel journey-route-panel"
+              aria-labelledby="journey-route-title"
             >
-              <div class="simulation-heading">
+              <div class="journey-route-heading">
                 <div>
-                  <div class="section-kicker">
-                    SIMULACIÓN DEL RECORRIDO · PERÚ
-                  </div>
-                  <h2 id="simulation-title">
+                  <div class="section-kicker">SEGUIMIENTO DEL VIAJE</div>
+                  <h2 id="journey-route-title">
                     San Juan de Marcona <span>→</span> Lima
                   </h2>
                   <p>
-                    Recorrido esquemático por las rutas PE-30 y Panamericana Sur
-                    (PE-1S).
+                    Ruta por la PE-30 y la Panamericana Sur (PE-1S).
                   </p>
                 </div>
                 <span
-                  class="simulation-status"
-                  id="simulation-status"
-                  data-state="idle"
+                  class="journey-route-status"
+                  id="journey-route-status"
+                  data-state="running"
                   ><i></i
-                  ><span id="simulation-status-label"
-                    >Listo para iniciar</span
-                  ></span
+                  ><span id="journey-route-status-label">En ruta</span></span
                 >
               </div>
 
               <div
-                class="simulation-track"
-                id="simulation-track"
-                aria-label="Recorrido simulado desde San Juan de Marcona hacia Lima"
+                class="journey-route-track"
+                id="journey-route-track"
+                aria-label="Ruta de San Juan de Marcona hacia Lima"
               >
-                <span class="simulation-track-line" aria-hidden="true"></span>
-                <span
-                  class="simulation-track-progress"
-                  id="simulation-track-progress"
-                  aria-hidden="true"
-                ></span>
-                <span
-                  class="simulation-bus-marker"
-                  id="simulation-bus-marker"
-                  aria-hidden="true"
-                >
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M5 16V6.8A2.8 2.8 0 0 1 7.8 4h8.4A2.8 2.8 0 0 1 19 6.8V16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"
-                    />
-                    <path d="M7 8h10v5H7zM8 18v2m8-2v2" />
-                    <circle cx="8.5" cy="15.5" r="1" />
-                    <circle cx="15.5" cy="15.5" r="1" />
-                  </svg>
-                </span>
-                <ol class="simulation-stops">
-                  <li class="simulation-stop is-start" data-stop-index="0">
-                    <span class="simulation-stop-dot"></span
+                <span class="journey-route-track-line" aria-hidden="true"></span>
+                <ol class="journey-route-stops">
+                  <li class="journey-route-stop is-start" data-stop-index="0">
+                    <span class="journey-route-stop-dot"></span
                     ><span
                       ><strong>San Juan de Marcona</strong
                       ><small>Salida</small></span
                     >
                   </li>
-                  <li class="simulation-stop" data-stop-index="1">
-                    <span class="simulation-stop-dot"></span
+                  <li class="journey-route-stop" data-stop-index="1">
+                    <span class="journey-route-stop-dot"></span
                     ><span><strong>Nazca</strong><small>Ica</small></span>
                   </li>
-                  <li class="simulation-stop" data-stop-index="2">
-                    <span class="simulation-stop-dot"></span
+                  <li class="journey-route-stop" data-stop-index="2">
+                    <span class="journey-route-stop-dot"></span
                     ><span><strong>Palpa</strong><small>Ica</small></span>
                   </li>
-                  <li class="simulation-stop" data-stop-index="3">
-                    <span class="simulation-stop-dot"></span
+                  <li class="journey-route-stop" data-stop-index="3">
+                    <span class="journey-route-stop-dot"></span
                     ><span><strong>Ica</strong><small>Ica</small></span>
                   </li>
-                  <li class="simulation-stop" data-stop-index="4">
-                    <span class="simulation-stop-dot"></span
+                  <li class="journey-route-stop" data-stop-index="4">
+                    <span class="journey-route-stop-dot"></span
                     ><span><strong>Pisco</strong><small>Ica</small></span>
                   </li>
-                  <li class="simulation-stop" data-stop-index="5">
-                    <span class="simulation-stop-dot"></span
+                  <li class="journey-route-stop" data-stop-index="5">
+                    <span class="journey-route-stop-dot"></span
                     ><span><strong>Chilca</strong><small>Lima</small></span>
                   </li>
-                  <li class="simulation-stop is-end" data-stop-index="6">
-                    <span class="simulation-stop-dot"></span
+                  <li class="journey-route-stop is-end" data-stop-index="6">
+                    <span class="journey-route-stop-dot"></span
                     ><span><strong>Lima</strong><small>Destino</small></span>
                   </li>
                 </ol>
               </div>
 
-              <div class="simulation-footer">
-                <div class="simulation-current">
-                  <span class="simulation-label">TRAMO ACTUAL</span>
-                  <strong id="simulation-current-stop"
-                    >San Juan de Marcona</strong
-                  >
-                  <small id="simulation-current-leg">Lista para salir</small>
-                </div>
-                <div class="simulation-progress-block">
-                  <div class="simulation-progress-heading">
-                    <span>Avance del recorrido</span
-                    ><strong id="simulation-progress-label">0%</strong>
-                  </div>
-                  <div
-                    class="simulation-progress-bar"
-                    id="simulation-progress-bar"
-                    role="progressbar"
-                    aria-label="Avance de la simulación"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow="0"
-                  >
-                    <span id="simulation-progress-fill"></span>
-                  </div>
-                </div>
-                <div class="simulation-controls">
-                  <button
-                    class="button button-primary"
-                    type="button"
-                    id="simulation-toggle"
-                  >
-                    Iniciar recorrido
-                  </button>
-                  <button
-                    class="simulation-reset"
-                    type="button"
-                    id="simulation-reset"
-                    aria-label="Reiniciar simulación"
-                    title="Reiniciar simulación"
-                  >
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.5" />
-                      <path d="M4 4v4.5h4.5" />
-                    </svg>
-                  </button>
+              <div class="journey-route-footer">
+                <div class="journey-route-current">
+                  <span class="journey-route-label">PRÓXIMA PARADA</span>
+                  <strong id="journey-route-current-stop">Nazca</strong>
+                  <small id="journey-route-current-leg">Primera parada de la ruta</small>
                 </div>
               </div>
             </section>
@@ -576,8 +509,8 @@
                   <div class="section-kicker">TU VIAJE COMO PASAJERO</div>
                   <h2 id="passenger-tools-title">Prepara tu llegada</h2>
                   <p>
-                    Elige dónde bajas y activa un aviso para acercarte con
-                    calma.
+                    Elige dónde bajarás y registra la parada para que el
+                    conductor pueda atenderla.
                   </p>
                 </div>
               </div>
@@ -596,14 +529,6 @@
                     <option value="Chilca">Chilca</option>
                     <option value="Lima">Lima</option>
                   </select>
-                </label>
-                <label class="passenger-reminder" for="passenger-reminder">
-                  <input type="checkbox" id="passenger-reminder" disabled />
-                  <span class="reminder-switch" aria-hidden="true"></span>
-                  <span
-                    ><strong>Avisarme al acercarme</strong
-                    ><small>Recibe un aviso durante la simulación.</small></span
-                  >
                 </label>
                 <div class="passenger-request-area">
                   <button
@@ -753,8 +678,7 @@
                   </li>
                 </ol>
                 <div class="route-reference">
-                  <span class="route-reference-dot"></span>Recorrido de
-                  referencia
+                  <span class="route-reference-dot"></span>Ruta asignada
                 </div>
               </aside>
             </div>
@@ -1065,12 +989,6 @@
             </section>
           </section>
 
-          <footer class="page-footer">
-            <span class="footer-mark" aria-hidden="true">✦</span>
-            <span
-              >Datos de demostración · guardados solo en este navegador.</span
-            >
-          </footer>
         </div>
       </main>
     </div>

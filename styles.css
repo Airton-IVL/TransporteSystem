@@ -750,39 +750,39 @@ svg {
   background: var(--blue);
   box-shadow: 0 0 0 3px #dce8ff;
 }
-.simulation-panel {
+.journey-route-panel {
   margin-bottom: 18px;
   padding: 21px 23px 17px;
 }
-.simulation-heading {
+.journey-route-heading {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
 }
-.simulation-heading .section-kicker {
+.journey-route-heading .section-kicker {
   margin-bottom: 5px;
   color: #7184a7;
 }
-.simulation-heading h2 {
+.journey-route-heading h2 {
   margin: 0;
   color: #182640;
   font-size: 17px;
   font-weight: 760;
   letter-spacing: -0.4px;
 }
-.simulation-heading h2 span {
+.journey-route-heading h2 span {
   padding: 0 5px;
   color: #8da1c7;
   font-weight: 500;
 }
-.simulation-heading p {
+.journey-route-heading p {
   margin: 5px 0 0;
   color: #8490a4;
   font-size: 10px;
   line-height: 1.5;
 }
-.simulation-status {
+.journey-route-status {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -795,62 +795,37 @@ svg {
   font-size: 9px;
   font-weight: 700;
 }
-.simulation-status i {
+.journey-route-status i {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #99a7bd;
 }
-.simulation-status[data-state="running"] {
+.journey-route-status[data-state="running"] {
   color: #315fc8;
   border-color: #dce6fb;
   background: #f0f5ff;
 }
-.simulation-status[data-state="running"] i {
+.journey-route-status[data-state="running"] i {
   background: var(--blue);
   box-shadow: 0 0 0 3px #dce8ff;
-  animation: glow-pulse 1.4s ease infinite;
 }
-.simulation-status[data-state="paused"] {
-  color: #a36b1f;
-  border-color: #f2e7cf;
-  background: #fffaf0;
-}
-.simulation-status[data-state="paused"] i {
-  background: #d29b44;
-}
-.simulation-status[data-state="complete"] {
-  color: #315fc8;
-  border-color: #dce6fb;
-  background: #f0f5ff;
-}
-.simulation-status[data-state="complete"] i {
-  background: var(--blue);
-}
-.simulation-track {
+.journey-route-track {
   position: relative;
   height: 91px;
   margin: 14px 7px 2px;
 }
-.simulation-track-line,
-.simulation-track-progress {
+.journey-route-track-line {
   position: absolute;
   z-index: 0;
   top: 12px;
   left: 7.14%;
+  right: 7.14%;
   height: 2px;
   border-radius: 2px;
-}
-.simulation-track-line {
-  right: 7.14%;
   background: #e3e9f3;
 }
-.simulation-track-progress {
-  width: 0;
-  background: linear-gradient(90deg, #5a82ef, #245ce8);
-  transition: width 0.1s linear;
-}
-.simulation-stops {
+.journey-route-stops {
   position: absolute;
   inset: 0;
   display: grid;
@@ -859,7 +834,7 @@ svg {
   padding: 0;
   list-style: none;
 }
-.simulation-stop {
+.journey-route-stop {
   position: relative;
   z-index: 1;
   display: grid;
@@ -871,7 +846,7 @@ svg {
   color: #73819a;
   text-align: center;
 }
-.simulation-stop-dot {
+.journey-route-stop-dot {
   display: block;
   width: 12px;
   height: 12px;
@@ -884,13 +859,13 @@ svg {
     background 0.2s ease,
     box-shadow 0.2s ease;
 }
-.simulation-stop > span:last-child {
+.journey-route-stop > span:last-child {
   display: grid;
   justify-items: center;
   gap: 3px;
   max-width: 100%;
 }
-.simulation-stop strong {
+.journey-route-stop strong {
   overflow: hidden;
   max-width: 100%;
   color: #62718b;
@@ -899,67 +874,38 @@ svg {
   line-height: 1.25;
   text-overflow: ellipsis;
 }
-.simulation-stop small {
+.journey-route-stop small {
   color: #a0aabc;
   font-size: 8px;
 }
-.simulation-stop.is-passed .simulation-stop-dot {
+.journey-route-stop.is-start .journey-route-stop-dot {
   border-color: #4b76e4;
   background: #4b76e4;
 }
-.simulation-stop.is-current .simulation-stop-dot {
-  border-color: #245ce8;
-  background: #fff;
-  box-shadow: 0 0 0 4px #eaf0ff;
-}
-.simulation-stop.is-current strong,
-.simulation-stop.is-start strong,
-.simulation-stop.is-end strong {
+.journey-route-stop.is-start strong,
+.journey-route-stop.is-end strong {
   color: #263b64;
 }
-.simulation-bus-marker {
-  position: absolute;
-  z-index: 2;
-  top: 12px;
-  left: 7.14%;
+.journey-route-footer {
   display: grid;
-  place-items: center;
-  width: 27px;
-  height: 27px;
-  border: 1px solid #d9e3ff;
-  border-radius: 9px;
-  color: #285bd0;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(34, 77, 171, 0.17);
-  transform: translate(-50%, -50%);
-  transition:
-    left 0.1s linear,
-    top 0.1s linear;
-}
-.simulation-bus-marker svg {
-  width: 16px;
-  height: 16px;
-}
-.simulation-footer {
-  display: grid;
-  grid-template-columns: minmax(170px, 1fr) minmax(170px, 0.9fr) auto;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: 18px;
   padding-top: 13px;
   border-top: 1px solid #edf0f5;
 }
-.simulation-current {
+.journey-route-current {
   display: grid;
   gap: 3px;
   min-width: 0;
 }
-.simulation-label {
+.journey-route-label {
   color: #8995a9;
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.8px;
 }
-.simulation-current strong {
+.journey-route-current strong {
   overflow: hidden;
   color: #263b64;
   font-size: 11px;
@@ -967,76 +913,12 @@ svg {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.simulation-current small {
+.journey-route-current small {
   overflow: hidden;
   color: #8b97aa;
   font-size: 9px;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.simulation-progress-block {
-  min-width: 0;
-}
-.simulation-progress-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 7px;
-  color: #8995a9;
-  font-size: 9px;
-}
-.simulation-progress-heading strong {
-  color: #315fc8;
-  font-size: 10px;
-}
-.simulation-progress-bar {
-  height: 6px;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #edf1f7;
-}
-.simulation-progress-bar span {
-  display: block;
-  width: 0;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #6d91f3, #245ce8);
-  transition: width 0.1s linear;
-}
-.simulation-controls {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.simulation-controls .button {
-  min-height: 36px;
-  padding: 0 13px;
-  font-size: 9px;
-}
-.simulation-reset {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid #e0e7f1;
-  border-radius: 9px;
-  color: #75849d;
-  background: #fff;
-  cursor: pointer;
-  transition:
-    color 0.18s ease,
-    border-color 0.18s ease,
-    background 0.18s ease;
-}
-.simulation-reset:hover {
-  color: #315fc8;
-  border-color: #cfdbf6;
-  background: #f7f9ff;
-}
-.simulation-reset svg {
-  width: 15px;
-  height: 15px;
 }
 .role-tools-grid {
   display: grid;
@@ -1251,68 +1133,6 @@ svg {
   border-color: #78a0fa;
   box-shadow: 0 0 0 3px rgba(68, 121, 250, 0.1);
   outline: none;
-}
-.passenger-reminder {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  cursor: pointer;
-}
-.passenger-reminder > input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  opacity: 0;
-}
-.reminder-switch {
-  position: relative;
-  width: 35px;
-  height: 20px;
-  flex: 0 0 auto;
-  border-radius: 12px;
-  background: #dce2ec;
-  transition: background 0.18s ease;
-}
-.reminder-switch::after {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-  content: "";
-  transition: transform 0.18s ease;
-}
-.passenger-reminder > input:checked + .reminder-switch {
-  background: var(--orange);
-}
-.passenger-reminder > input:checked + .reminder-switch::after {
-  transform: translateX(15px);
-}
-.passenger-reminder > input:focus-visible + .reminder-switch {
-  outline: 3px solid rgba(68, 121, 250, 0.38);
-  outline-offset: 3px;
-}
-.passenger-reminder > input:disabled + .reminder-switch {
-  opacity: 0.5;
-}
-.passenger-reminder > span:last-child {
-  display: grid;
-  gap: 4px;
-}
-.passenger-reminder strong {
-  color: #35435c;
-  font-size: 9px;
-  font-weight: 730;
-}
-.passenger-reminder small {
-  color: #929daf;
-  font-size: 8px;
-  line-height: 1.4;
 }
 .passenger-request-area {
   display: grid;
@@ -2814,20 +2634,20 @@ body[data-mode="pasajero"] .history-actions {
   .passenger-request-area small {
     max-width: none;
   }
-  .simulation-panel {
+  .journey-route-panel {
     padding: 18px 17px 15px;
   }
-  .simulation-heading {
+  .journey-route-heading {
     gap: 9px;
   }
-  .simulation-heading h2 {
+  .journey-route-heading h2 {
     font-size: 15px;
   }
-  .simulation-track {
+  .journey-route-track {
     height: 224px;
     margin: 12px 0 14px;
   }
-  .simulation-track-line {
+  .journey-route-track-line {
     top: 16px;
     right: auto;
     bottom: 16px;
@@ -2835,18 +2655,11 @@ body[data-mode="pasajero"] .history-actions {
     width: 2px;
     height: auto;
   }
-  .simulation-track-progress {
-    top: 16px;
-    left: 6px;
-    width: 2px;
-    height: 0;
-    transition: height 0.1s linear;
-  }
-  .simulation-stops {
+  .journey-route-stops {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(7, 1fr);
   }
-  .simulation-stop {
+  .journey-route-stop {
     display: flex;
     align-items: center;
     justify-items: initial;
@@ -2854,38 +2667,25 @@ body[data-mode="pasajero"] .history-actions {
     padding: 0;
     text-align: left;
   }
-  .simulation-stop-dot {
+  .journey-route-stop-dot {
     flex: 0 0 auto;
   }
-  .simulation-stop > span:last-child {
+  .journey-route-stop > span:last-child {
     display: flex;
     align-items: baseline;
     justify-items: initial;
     gap: 7px;
     max-width: calc(100% - 24px);
   }
-  .simulation-stop strong {
+  .journey-route-stop strong {
     font-size: 9px;
   }
-  .simulation-stop small {
+  .journey-route-stop small {
     font-size: 8px;
   }
-  .simulation-bus-marker {
-    top: 16px;
-    left: 6px;
-    transition: top 0.1s linear;
-  }
-  .simulation-footer {
-    grid-template-columns: minmax(0, 1fr) auto;
+  .journey-route-footer {
+    grid-template-columns: 1fr;
     gap: 12px;
-  }
-  .simulation-progress-block {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
-  .simulation-controls {
-    grid-column: 2;
-    grid-row: 1;
   }
   .request-layout {
     grid-template-columns: 1fr;
@@ -3163,7 +2963,7 @@ body[data-mode="pasajero"] .history-actions {
   .route-reference {
     font-size: 8px;
   }
-  .simulation-panel {
+  .journey-route-panel {
     padding: 16px 13px 13px;
   }
   .driver-tool-panel,
@@ -3180,49 +2980,34 @@ body[data-mode="pasajero"] .history-actions {
     flex-direction: column;
     gap: 6px;
   }
-  .simulation-heading {
+  .journey-route-heading {
     align-items: flex-start;
     flex-direction: column;
   }
-  .simulation-heading h2 {
+  .journey-route-heading h2 {
     font-size: 14px;
     line-height: 1.35;
   }
-  .simulation-heading p {
+  .journey-route-heading p {
     max-width: 290px;
     font-size: 9px;
   }
-  .simulation-status {
+  .journey-route-status {
     padding: 6px 8px;
     font-size: 8px;
   }
-  .simulation-track {
+  .journey-route-track {
     margin: 11px 0 12px;
   }
-  .simulation-footer {
+  .journey-route-footer {
     gap: 10px;
     padding-top: 11px;
   }
-  .simulation-current strong {
+  .journey-route-current strong {
     font-size: 10px;
   }
-  .simulation-current small {
+  .journey-route-current small {
     font-size: 8px;
-  }
-  .simulation-progress-heading {
-    font-size: 8px;
-  }
-  .simulation-controls {
-    gap: 5px;
-  }
-  .simulation-controls .button {
-    min-height: 34px;
-    padding: 0 9px;
-    font-size: 8px;
-  }
-  .simulation-reset {
-    width: 34px;
-    height: 34px;
   }
   .request-intro {
     min-height: 320px;
