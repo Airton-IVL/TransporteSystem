@@ -12,7 +12,142 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
   </head>
-  <body data-mode="conductor">
+  <body data-mode="conductor" class="mode-screen-open">
+    <!-- Pantalla de Selección de Modo Inicial -->
+    <div
+      class="mode-selection-screen"
+      id="mode-selection-screen"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mode-selection-title"
+    >
+      <div class="mode-screen-backdrop" aria-hidden="true">
+        <div class="mode-glow mode-glow-1"></div>
+        <div class="mode-glow mode-glow-2"></div>
+        <div class="mode-ambient-grid"></div>
+        <div class="mode-ambient-roads">
+          <svg class="mode-road-svg" viewBox="0 0 1200 600" fill="none">
+            <path
+              d="M-50 450 C 300 400, 600 550, 1250 350"
+              stroke="rgba(36, 92, 232, 0.18)"
+              stroke-width="3"
+              stroke-dasharray="10 10"
+            />
+            <path
+              d="M-50 200 C 400 150, 700 350, 1250 150"
+              stroke="rgba(246, 196, 69, 0.15)"
+              stroke-width="2.5"
+              stroke-dasharray="8 8"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div class="mode-screen-content">
+        <header class="mode-header">
+          <div class="mode-brand-badge">
+            <span class="mode-brand-icon" aria-hidden="true">
+              <svg viewBox="0 0 40 40" fill="none">
+                <rect x="2" y="2" width="36" height="36" rx="10" fill="currentColor" />
+                <path d="M14 8v7m12-7v7m-12 14v7m12-7v7M8 14h7m10 0h7M8 26h7m10 0h7" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                <path d="M17 8h6a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4Z" fill="#fff" />
+                <path d="M16 12h8v9h-8z" fill="currentColor" />
+                <circle cx="17.5" cy="27" r="1.5" fill="currentColor" />
+                <circle cx="22.5" cy="27" r="1.5" fill="currentColor" />
+              </svg>
+            </span>
+            <span class="mode-brand-text">TránsitoApp · Sistema de Transporte</span>
+          </div>
+
+          <h1 class="mode-title" id="mode-selection-title">Seleccionar modo</h1>
+          <p class="mode-subtitle">Elige cómo deseas utilizar el sistema para comenzar tu viaje</p>
+        </header>
+
+        <div class="mode-cards-grid">
+          <!-- Tarjeta 1: Pasajero -->
+          <button
+            type="button"
+            class="mode-card mode-card-pasajero"
+            id="mode-btn-pasajero"
+            data-select-mode="pasajero"
+            aria-label="Ingresar en modo Pasajero"
+          >
+            <div class="mode-card-shine" aria-hidden="true"></div>
+
+            <div class="mode-card-top">
+              <span class="mode-card-pill">
+                <span class="mode-card-dot"></span>
+                <span>Modo Pasajero</span>
+              </span>
+              <span class="mode-card-chip">Usuario</span>
+            </div>
+
+            <div class="mode-card-icon-wrap" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="mode-card-icon">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+
+            <div class="mode-card-body">
+              <h2 class="mode-card-name">Pasajero</h2>
+            </div>
+
+            <div class="mode-card-footer">
+              <span class="mode-card-action">
+                <span>Ingresar como Pasajero</span>
+                <svg class="mode-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
+          </button>
+
+          <!-- Tarjeta 2: Conductor -->
+          <button
+            type="button"
+            class="mode-card mode-card-conductor"
+            id="mode-btn-conductor"
+            data-select-mode="conductor"
+            aria-label="Ingresar en modo Conductor"
+          >
+            <div class="mode-card-shine" aria-hidden="true"></div>
+
+            <div class="mode-card-top">
+              <span class="mode-card-pill mode-card-pill-gold">
+                <span class="mode-card-dot mode-card-dot-gold"></span>
+                <span>Modo Conductor</span>
+              </span>
+              <span class="mode-card-chip mode-card-chip-gold">Control</span>
+            </div>
+
+            <div class="mode-card-icon-wrap mode-icon-conductor" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="mode-card-icon">
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 3v6M12 15v6M3 12h6M15 12h6" />
+              </svg>
+            </div>
+
+            <div class="mode-card-body">
+              <h2 class="mode-card-name">Conductor</h2>
+            </div>
+
+            <div class="mode-card-footer">
+              <span class="mode-card-action mode-action-conductor">
+                <span>Ingresar como Conductor</span>
+                <svg class="mode-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="app-shell">
       <aside class="sidebar" aria-label="Navegación principal">
         <a
@@ -136,19 +271,16 @@
               ><small id="user-role">Conductor</small></span
             >
             <button
-              class="role-toggle"
+              class="role-change-btn"
               type="button"
-              id="role-toggle"
-              aria-pressed="false"
-              aria-label="Cambiar a la vista de pasajero"
-              title="Cambiar a la vista de pasajero"
+              id="open-mode-screen"
+              aria-label="Abrir selector de modo"
+              title="Seleccionar modo (Pasajero o Conductor)"
             >
               <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="10" cy="7" r="4" />
-                <path d="M20 8v6m-3-3h6" />
+                <path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4" />
               </svg>
-              <span id="role-toggle-label">Vista pasajero</span>
+              <span>Cambiar modo</span>
             </button>
           </div>
         </header>
@@ -708,37 +840,38 @@
                 </p>
                 <div
                   class="request-steps"
+                  id="request-steps-indicator"
                   aria-label="Pasos para solicitar una parada"
                 >
-                  <div class="request-step is-current">
+                  <div class="request-step is-current" id="step-indicator-1">
                     <span>1</span>
                     <div>
                       <strong id="request-step-one-title"
-                        >Elige una parada</strong
+                        >1. Elige tu parada</strong
                       ><small id="request-step-one-copy"
-                        >Selecciona un punto de la ruta</small
+                        >Selecciona tu punto de bajada</small
                       >
                     </div>
                   </div>
                   <div class="step-connector"></div>
-                  <div class="request-step">
+                  <div class="request-step" id="step-indicator-2">
                     <span>2</span>
                     <div>
                       <strong id="request-step-two-title"
-                        >Indica pasajeros</strong
+                        >2. Indica pasajeros</strong
                       ><small id="request-step-two-copy"
-                        >Cuéntalos antes de continuar</small
+                        >¿Cuántos van a bajar?</small
                       >
                     </div>
                   </div>
                   <div class="step-connector"></div>
-                  <div class="request-step">
+                  <div class="request-step" id="step-indicator-3">
                     <span>3</span>
                     <div>
                       <strong id="request-step-three-title"
-                        >Envía la solicitud</strong
+                        >3. Confirmación</strong
                       ><small id="request-step-three-copy"
-                        >Podrás seguir su estado</small
+                        >Distancia y tiempo en bus</small
                       >
                     </div>
                   </div>
@@ -770,106 +903,419 @@
                   Completa los datos para avisar al conductor.
                 </p>
                 <form id="request-form" novalidate>
-                  <label class="field-label" for="stop-select"
-                    ><span id="stop-question">¿Dónde bajarán?</span>
-                    <span class="required-mark">*</span></label
-                  >
-                  <div class="select-wrap">
-                    <span class="field-leading-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24">
-                        <path
-                          d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z"
-                        />
-                        <circle cx="12" cy="10" r="2.2" />
-                      </svg>
-                    </span>
-                    <select
-                      id="stop-select"
-                      name="stop"
-                      required
-                      aria-describedby="stop-help"
-                    >
-                      <option value="">Selecciona una parada</option>
-                      <option value="Nazca">Nazca</option>
-                      <option value="Palpa">Palpa</option>
-                      <option value="Ica">Ica</option>
-                      <option value="Pisco">Pisco</option>
-                      <option value="Chilca">Chilca</option>
-                    </select>
-                    <svg
-                      class="select-chevron"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="m7 10 5 5 5-5" />
-                    </svg>
-                  </div>
-                  <p class="field-hint" id="stop-help">
-                    Elige el punto donde bajarán los pasajeros.
-                  </p>
+                  <!-- PASO 1: SELECCIONAR PARADA -->
+                  <div class="wizard-panel is-active" id="wizard-panel-1">
+                    <div class="wizard-panel-header">
+                      <span class="wizard-badge">PASO 1 DE 3</span>
+                      <h3 class="wizard-heading" id="stop-question">¿Dónde bajarás?</h3>
+                      <p class="wizard-desc">Selecciona tu parada de destino a lo largo de la ruta Marcona – Lima.</p>
+                    </div>
 
-                  <div class="passenger-label-row" id="passenger-label-row">
-                    <label class="field-label" for="passenger-count"
-                      >¿Cuántos pasajeros bajan?
-                      <span class="required-mark">*</span></label
-                    ><span class="field-optional">De 1 a 40</span>
+                    <div id="driver-stop-picker">
+                      <div class="field-group">
+                        <label class="field-label" for="stop-search-input">
+                          <span>Buscar o filtrar parada</span>
+                        </label>
+                        <div class="search-input-wrap">
+                          <span class="field-leading-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <circle cx="11" cy="11" r="8"></circle>
+                              <path d="m21 21-4.3-4.3"></path>
+                            </svg>
+                          </span>
+                          <input
+                            type="search"
+                            id="stop-search-input"
+                            class="search-input"
+                            placeholder="Busca una parada por nombre"
+                            aria-label="Buscar parada"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="field-group">
+                        <label class="field-label" for="stop-select">
+                          <span>Seleccionar parada de la ruta</span>
+                          <span class="required-mark">*</span>
+                        </label>
+                        <div class="select-wrap">
+                          <span class="field-leading-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                              <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" />
+                              <circle cx="12" cy="10" r="2.2" />
+                            </svg>
+                          </span>
+                          <select
+                            id="stop-select"
+                            name="stop"
+                            required
+                            aria-describedby="stop-help"
+                          >
+                            <option value="">Selecciona tu parada de destino (61 paradas)</option>
+                          </select>
+                          <svg class="select-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m7 10 5 5 5-5" />
+                          </svg>
+                        </div>
+                        <p class="field-hint" id="stop-help">
+                          Elige el punto de la ruta donde vas a descender.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="field-group passenger-stop-picker" id="passenger-stop-picker" hidden>
+                      <label class="field-label" for="open-stop-picker">
+                        <span>Parada de bajada</span>
+                        <span class="required-mark">*</span>
+                      </label>
+                      <button
+                        class="stop-picker-trigger"
+                        id="open-stop-picker"
+                        type="button"
+                        aria-haspopup="dialog"
+                        aria-controls="stop-picker-dialog"
+                      >
+                        <span class="stop-picker-trigger-icon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24">
+                            <path d="M4 19V7.8a2 2 0 0 1 1.1-1.8l6-3a2 2 0 0 1 1.8 0l6 3A2 2 0 0 1 20 7.8V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" />
+                            <path d="M9 21v-6h6v6M8 8h.01M16 8h.01" />
+                          </svg>
+                        </span>
+                        <span class="stop-picker-trigger-copy">
+                          <span class="stop-picker-trigger-kicker">RUTA COMPLETA · 61 PARADAS</span>
+                          <strong id="selected-stop-name">Selecciona tu parada</strong>
+                          <span id="selected-stop-meta">Marcona → Lima · Ver distancias y tiempos</span>
+                        </span>
+                        <span class="stop-picker-trigger-arrow" aria-hidden="true">
+                          <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></svg>
+                        </span>
+                      </button>
+                      <p class="field-hint" id="stop-picker-hint">
+                        Consulta cada parada, su tramo y el tiempo aproximado en bus.
+                      </p>
+                    </div>
+
+                    <div class="stop-picker-backdrop" id="stop-picker-overlay" hidden>
+                      <section
+                        class="stop-picker-dialog"
+                        id="stop-picker-dialog"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="stop-picker-title"
+                        aria-describedby="stop-picker-description"
+                        tabindex="-1"
+                      >
+                        <header class="stop-picker-header">
+                          <div class="stop-picker-header-copy">
+                            <span class="stop-picker-eyebrow">PLANIFICA TU BAJADA</span>
+                            <h2 id="stop-picker-title">Elige dónde bajar</h2>
+                            <p id="stop-picker-description">Explora las paradas de la ruta y compara distancia y tiempo de viaje.</p>
+                          </div>
+                          <button class="stop-picker-close" id="close-stop-picker" type="button" aria-label="Cerrar selector de paradas">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                          </button>
+                          <div class="stop-picker-trip" aria-label="Ruta de Marcona a Lima">
+                            <span class="stop-picker-city"><strong>MARCONA</strong><small>Origen</small></span>
+                            <span class="stop-picker-trip-line" id="stop-picker-trip-line" role="progressbar" aria-label="Avance desde Marcona hacia Lima" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                              <span class="stop-picker-trip-glow"></span>
+                              <span class="stop-picker-bus" id="stop-picker-bus">
+                                <svg viewBox="0 0 32 24"><path d="M5 16V6.8A2.8 2.8 0 0 1 7.8 4h16.4A2.8 2.8 0 0 1 27 6.8V16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"/><path d="M8 8h16v5H8zM9 18v2m14-2v2"/><circle cx="9.5" cy="15.5" r="1"/><circle cx="22.5" cy="15.5" r="1"/></svg>
+                              </span>
+                            </span>
+                            <span class="stop-picker-city"><strong>LIMA</strong><small>Destino</small></span>
+                          </div>
+                          <div class="stop-picker-progress-caption">
+                            <span class="stop-picker-progress-indicator" aria-hidden="true"></span>
+                            <span id="stop-picker-progress-label" aria-live="polite">Selecciona una parada para ver qué tan cerca está de Lima.</span>
+                            <strong id="stop-picker-progress-percent">0%</strong>
+                          </div>
+                        </header>
+
+                        <div class="stop-picker-controls">
+                          <label class="stop-picker-search" for="stop-picker-search">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <input id="stop-picker-search" type="search" placeholder="Busca por ciudad, parada o tramo" aria-label="Buscar por ciudad, parada o tramo" autocomplete="off" />
+                            <span class="stop-picker-search-count" aria-hidden="true">61 paradas</span>
+                          </label>
+                          <div class="stop-picker-zones" id="stop-picker-zones" aria-label="Filtrar por tramo" role="group"></div>
+                          <div class="stop-picker-results-bar">
+                            <span id="stop-picker-results-count" aria-live="polite">61 paradas disponibles</span>
+                            <span>Distancias y tiempos estimados</span>
+                          </div>
+                        </div>
+
+                        <div class="stop-picker-results-scroll">
+                          <div class="stop-picker-list" id="stop-picker-list"></div>
+                          <div class="stop-picker-empty" id="stop-picker-empty" hidden>
+                            <span class="stop-picker-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+                            <strong>No encontramos esa parada</strong>
+                            <span>Prueba con otro nombre o cambia el tramo.</span>
+                          </div>
+                        </div>
+
+                        <footer class="stop-picker-footer">
+                          <div class="stop-picker-footer-summary">
+                            <span class="stop-picker-footer-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.2"/></svg></span>
+                            <span class="stop-picker-footer-copy">
+                              <strong id="stop-picker-selected-title">Elige una parada</strong>
+                              <small id="stop-picker-selected-details">Verás aquí el resumen de tu parada.</small>
+                            </span>
+                          </div>
+                          <button class="stop-picker-confirm" id="confirm-stop-picker" type="button" disabled>
+                            <span>Usar esta parada</span>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                          </button>
+                        </footer>
+                      </section>
+                    </div>
+
+                    <!-- Ficha previa informativa de la parada -->
+                    <div class="stop-preview-box" id="stop-preview-box" hidden>
+                      <div class="preview-box-header">
+                        <span class="preview-tag" id="preview-segment">Tramo: Marcona → Nazca</span>
+                        <span class="preview-badge-status">En ruta</span>
+                      </div>
+                      <h4 class="preview-stop-title" id="preview-stop-name">Nazca</h4>
+                      <div class="preview-stats-grid">
+                        <div class="preview-stat-item">
+                          <span class="preview-stat-label">Distancia tramo:</span>
+                          <strong class="preview-stat-val" id="preview-segment-dist">64 km</strong>
+                        </div>
+                        <div class="preview-stat-item">
+                          <span class="preview-stat-label">Tiempo en bus:</span>
+                          <strong class="preview-stat-val" id="preview-segment-time">50–60 min</strong>
+                        </div>
+                        <div class="preview-stat-item">
+                          <span class="preview-stat-label">Dist. acumulada:</span>
+                          <strong class="preview-stat-val" id="preview-total-dist">64 km</strong>
+                        </div>
+                        <div class="preview-stat-item">
+                          <span class="preview-stat-label">Tiempo aprox.:</span>
+                          <strong class="preview-stat-val" id="preview-total-time">55 min</strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="wizard-actions">
+                      <button
+                        type="button"
+                        class="button button-primary wizard-btn-next"
+                        id="wizard-goto-step-2"
+                        disabled
+                      >
+                        <span>Siguiente: Indicar pasajeros</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      </button>
+                    </div>
                   </div>
-                  <div class="number-stepper" id="passenger-number-stepper">
-                    <button
-                      class="stepper-button"
-                      type="button"
-                      id="passenger-decrease"
-                      aria-label="Quitar un pasajero"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M5 12h14" />
-                      </svg>
-                    </button>
-                    <input
-                      id="passenger-count"
-                      name="passengers"
-                      type="number"
-                      min="1"
-                      max="40"
-                      step="1"
-                      value="1"
-                      inputmode="numeric"
-                      required
-                      aria-describedby="passenger-help"
-                    />
-                    <span class="passenger-unit" id="passenger-unit"
-                      >pasajero</span
-                    >
-                    <button
-                      class="stepper-button stepper-button-plus"
-                      type="button"
-                      id="passenger-increase"
-                      aria-label="Agregar un pasajero"
-                    >
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 5v14m-7-7h14" />
-                      </svg>
-                    </button>
+
+                  <!-- PASO 2: CUÁNTOS PASAJEROS BAJAN -->
+                  <div class="wizard-panel" id="wizard-panel-2" hidden>
+                    <div class="wizard-panel-header">
+                      <span class="wizard-badge">PASO 2 DE 3</span>
+                      <h3 class="wizard-heading">¿Cuántos pasajeros van a bajar?</h3>
+                      <p class="wizard-desc">
+                        Indica cuántas personas descenderán en <strong id="step-2-stop-name" class="highlight-text">tu parada seleccionada</strong>.
+                      </p>
+                    </div>
+
+                    <div class="passenger-card-select">
+                      <div class="passenger-label-row" id="passenger-label-row">
+                        <label class="field-label" for="passenger-count">
+                          <span>Cantidad de pasajeros</span>
+                          <span class="required-mark">*</span>
+                        </label>
+                        <span class="field-optional">De 1 a 40 personas</span>
+                      </div>
+
+                      <div class="number-stepper" id="passenger-number-stepper">
+                        <button
+                          class="stepper-button"
+                          type="button"
+                          id="passenger-decrease"
+                          aria-label="Quitar un pasajero"
+                        >
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h14" />
+                          </svg>
+                        </button>
+                        <input
+                          id="passenger-count"
+                          name="passengers"
+                          type="number"
+                          min="1"
+                          max="40"
+                          step="1"
+                          value="1"
+                          inputmode="numeric"
+                          required
+                          aria-describedby="passenger-help"
+                        />
+                        <span class="passenger-unit" id="passenger-unit">pasajero</span>
+                        <button
+                          class="stepper-button stepper-button-plus"
+                          type="button"
+                          id="passenger-increase"
+                          aria-label="Agregar un pasajero"
+                        >
+                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 5v14m-7-7h14" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div class="quick-passengers-chips">
+                        <span>Selección rápida:</span>
+                        <div class="chips-group">
+                          <button type="button" class="chip-btn is-active" data-qty="1">1 pers.</button>
+                          <button type="button" class="chip-btn" data-qty="2">2 pers.</button>
+                          <button type="button" class="chip-btn" data-qty="3">3 pers.</button>
+                          <button type="button" class="chip-btn" data-qty="4">4 pers.</button>
+                        </div>
+                      </div>
+
+                      <p class="field-hint" id="passenger-help">
+                        El conductor preparará la bajada segura para esta cantidad de pasajeros.
+                      </p>
+                    </div>
+
+                    <div class="wizard-actions">
+                      <button
+                        type="button"
+                        class="button button-secondary wizard-btn-prev"
+                        id="wizard-back-step-1"
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        <span>Volver a parada</span>
+                      </button>
+                      <button
+                        type="button"
+                        class="button button-primary wizard-btn-next"
+                        id="wizard-goto-step-3"
+                      >
+                        <span>Siguiente: Confirmar datos</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      </button>
+                    </div>
                   </div>
-                  <p class="field-hint" id="passenger-help">
-                    Usa + y − para ajustar la cantidad.
-                  </p>
-                  <p class="form-error" id="form-error" role="alert" hidden></p>
-                  <button
-                    class="button button-primary button-submit"
-                    type="submit"
-                    id="submit-request"
-                  >
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M4 12h15m-6-6 6 6-6 6" />
-                    </svg>
-                    Enviar solicitud
-                  </button>
-                  <div class="secure-note">
-                    <span aria-hidden="true">✓</span
-                    ><span id="request-secure-note"
-                      >Revisa la parada y la cantidad antes de enviar.</span
-                    >
+
+                  <!-- PASO 3: CONFIRMACIÓN DE DATOS, DISTANCIA Y TIEMPO -->
+                  <div class="wizard-panel" id="wizard-panel-3" hidden>
+                    <div class="wizard-panel-header">
+                      <span class="wizard-badge wizard-badge-confirm">PASO 3 DE 3 · CONFIRMACIÓN</span>
+                      <h3 class="wizard-heading">Confirma los datos de tu parada</h3>
+                      <p class="wizard-desc">
+                        Revisa la información antes de enviar el aviso al conductor del bus.
+                      </p>
+                    </div>
+
+                    <div class="confirmation-ticket">
+                      <div class="ticket-top">
+                        <div class="ticket-header-pill">
+                          <span class="ticket-dot"></span>
+                          <span>DETALLES DE LA SOLICITUD</span>
+                        </div>
+                        <div class="ticket-passenger-badge" id="confirm-passengers-pill">
+                          1 pasajero
+                        </div>
+                      </div>
+
+                      <div class="ticket-main-stop">
+                        <span class="ticket-label">Parada de bajada seleccionada:</span>
+                        <h4 class="ticket-stop-title" id="confirm-stop-name">---</h4>
+                        <span class="ticket-segment-line" id="confirm-segment-name">Tramo: ---</span>
+                      </div>
+
+                      <div class="ticket-details-grid">
+                        <div class="ticket-detail-card">
+                          <div class="detail-card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="m12 21 8-14H4z"/></svg>
+                          </div>
+                          <div>
+                            <span class="detail-label">Distancia entre paradas:</span>
+                            <strong class="detail-val" id="confirm-segment-distance">---</strong>
+                            <small class="detail-sub" id="confirm-total-distance">Acumulada: ---</small>
+                          </div>
+                        </div>
+
+                        <div class="ticket-detail-card">
+                          <div class="detail-card-icon detail-icon-time" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                          </div>
+                          <div>
+                            <span class="detail-label">Tiempo promedio en bus:</span>
+                            <strong class="detail-val" id="confirm-segment-time">---</strong>
+                            <small class="detail-sub" id="confirm-est-arrival">Tiempo de viaje: ---</small>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="ticket-notice">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                        <span>El conductor recibirá este aviso en tiempo real en su panel de viaje.</span>
+                      </div>
+                    </div>
+
+                    <p class="form-error" id="form-error" role="alert" hidden></p>
+
+                    <div class="wizard-actions">
+                      <button
+                        type="button"
+                        class="button button-secondary wizard-btn-prev"
+                        id="wizard-back-step-2"
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        <span>Modificar datos</span>
+                      </button>
+                      <button
+                        class="button button-primary button-submit"
+                        type="submit"
+                        id="submit-request"
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="m5 12 4 4L19 6" />
+                        </svg>
+                        <span>Confirmar y avisar al conductor</span>
+                      </button>
+                    </div>
+
+                    <div class="secure-note">
+                      <span aria-hidden="true">✓</span>
+                      <span id="request-secure-note"
+                        >Solicitud directa en tiempo real para la tripulación del bus.</span
+                      >
+                    </div>
+                  </div>
+
+                  <!-- ESTADO DE ÉXITO TRAS CONFIRMAR -->
+                  <div class="wizard-panel wizard-success-panel" id="wizard-panel-success" hidden>
+                    <div class="success-icon-wrap" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>
+                    </div>
+                    <span class="success-badge">SOLICITUD CONFIRMADA</span>
+                    <h3 class="success-title">¡Parada avisada al conductor con éxito!</h3>
+                    <p class="success-copy" id="success-message">
+                      Tu solicitud ha quedado registrada en la lista de próximas bajadas.
+                    </p>
+
+                    <div class="success-ticket-summary" id="success-summary"></div>
+
+                    <div class="success-actions">
+                      <button
+                        type="button"
+                        class="button button-primary"
+                        id="btn-view-confirmations"
+                      >
+                        Ver en Mis avisos
+                      </button>
+                      <button
+                        type="button"
+                        class="button button-secondary"
+                        id="btn-new-stop-request"
+                      >
+                        Solicitar otra parada
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>

@@ -24,12 +24,6 @@
     },
   };
   const passengerViewCopy = {
-    viaje: {
-      eyebrow: "TU VIAJE",
-      title: "Mi viaje",
-      description: "Consulta el recorrido y prepara tu bajada.",
-      context: "Mi viaje",
-    },
     solicitar: {
       eyebrow: "MI PARADA",
       title: "Pedir mi parada",
@@ -43,13 +37,68 @@
       context: "Mis avisos",
     },
   };
-  const PASSENGER_DESTINATIONS = [
-    "Nazca",
-    "Palpa",
-    "Ica",
-    "Pisco",
-    "Chilca",
-    "Lima",
+  const ROUTE_STOPS = [
+    { id: 1, name: "Marcona – Nazca", segment: "Marcona → Nazca", segmentDist: "64 km", segmentTime: "50–60 min", totalDist: "20 km", totalTime: "20 min", zone: "Marcona a Nazca" },
+    { id: 2, name: "San Juan de Marcona", segment: "Marcona → Nazca", segmentDist: "64 km", segmentTime: "50–60 min", totalDist: "0 km (Origen)", totalTime: "Salida", zone: "Marcona a Nazca" },
+    { id: 3, name: "Cruce de Marcona", segment: "Marcona → Nazca", segmentDist: "64 km", segmentTime: "50–60 min", totalDist: "18 km", totalTime: "15–20 min", zone: "Marcona a Nazca" },
+    { id: 4, name: "Poroma", segment: "Marcona → Nazca", segmentDist: "64 km", segmentTime: "50–60 min", totalDist: "36 km", totalTime: "30–35 min", zone: "Marcona a Nazca" },
+    { id: 5, name: "Vista Alegre", segment: "Marcona → Nazca", segmentDist: "64 km", segmentTime: "50–60 min", totalDist: "58 km", totalTime: "45–50 min", zone: "Marcona a Nazca" },
+    { id: 6, name: "Nazca", segment: "Marcona → Nazca", segmentDist: "64 km", segmentTime: "50–60 min", totalDist: "64 km", totalTime: "50–60 min", zone: "Marcona a Nazca" },
+    { id: 7, name: "El Ingenio (acceso/desvío)", segment: "Nazca → Palpa", segmentDist: "48 km", segmentTime: "40–50 min", totalDist: "89 km", totalTime: "1 h 15 min", zone: "Nazca a Palpa" },
+    { id: 8, name: "Nazca – Palpa", segment: "Nazca → Palpa", segmentDist: "48 km", segmentTime: "40–50 min", totalDist: "96 km", totalTime: "1 h 25 min", zone: "Nazca a Palpa" },
+    { id: 9, name: "Llipata", segment: "Nazca → Palpa", segmentDist: "48 km", segmentTime: "40–50 min", totalDist: "102 km", totalTime: "1 h 35 min", zone: "Nazca a Palpa" },
+    { id: 10, name: "Palpa", segment: "Nazca → Palpa", segmentDist: "48 km", segmentTime: "40–50 min", totalDist: "112 km", totalTime: "1 h 45 min", zone: "Nazca a Palpa" },
+    { id: 11, name: "Río Grande", segment: "Palpa → Ocucaje", segmentDist: "75–85 km", segmentTime: "1 h – 1 h 10 min", totalDist: "127 km", totalTime: "2 h 00 min", zone: "Palpa a Ocucaje" },
+    { id: 12, name: "Santa Cruz", segment: "Palpa → Ocucaje", segmentDist: "75–85 km", segmentTime: "1 h – 1 h 10 min", totalDist: "147 km", totalTime: "2 h 20 min", zone: "Palpa a Ocucaje" },
+    { id: 13, name: "Palpa – Ica", segment: "Palpa → Ocucaje", segmentDist: "75–85 km", segmentTime: "1 h – 1 h 10 min", totalDist: "162 km", totalTime: "2 h 35 min", zone: "Palpa a Ocucaje" },
+    { id: 14, name: "Ocucaje", segment: "Palpa → Ocucaje", segmentDist: "75–85 km", segmentTime: "1 h – 1 h 10 min", totalDist: "192 km", totalTime: "2 h 55 min", zone: "Palpa a Ocucaje" },
+    { id: 15, name: "Santiago (desvío)", segment: "Ocucaje → Ica", segmentDist: "30–40 km", segmentTime: "25–35 min", totalDist: "207 km", totalTime: "3 h 10 min", zone: "Ocucaje a Ica" },
+    { id: 16, name: "Los Aquijes (desvío)", segment: "Ocucaje → Ica", segmentDist: "30–40 km", segmentTime: "25–35 min", totalDist: "218 km", totalTime: "3 h 20 min", zone: "Ocucaje a Ica" },
+    { id: 17, name: "Ica", segment: "Ocucaje → Ica", segmentDist: "30–40 km", segmentTime: "25–35 min", totalDist: "227 km", totalTime: "3 h 30 min", zone: "Ocucaje a Ica" },
+    { id: 18, name: "Ica – Pisco", segment: "Ica → Salas / Guadalupe", segmentDist: "7–12 km", segmentTime: "10–15 min", totalDist: "232 km", totalTime: "3 h 38 min", zone: "Ica a Pisco" },
+    { id: 19, name: "Subtanjalla", segment: "Ica → Salas / Guadalupe", segmentDist: "7–12 km", segmentTime: "10–15 min", totalDist: "234 km", totalTime: "3 h 40 min", zone: "Ica a Pisco" },
+    { id: 20, name: "Guadalupe", segment: "Ica → Salas / Guadalupe", segmentDist: "7–12 km", segmentTime: "10–15 min", totalDist: "237 km", totalTime: "3 h 45 min", zone: "Ica a Pisco" },
+    { id: 21, name: "Salas - Guadalupe", segment: "Ica → Salas / Guadalupe", segmentDist: "7–12 km", segmentTime: "10–15 min", totalDist: "239 km", totalTime: "3 h 48 min", zone: "Ica a Pisco" },
+    { id: 22, name: "Barrio Chino", segment: "Guadalupe → Barrio Chino", segmentDist: "15–25 km", segmentTime: "15–25 min", totalDist: "257 km", totalTime: "4 h 05 min", zone: "Ica a Pisco" },
+    { id: 23, name: "El Álamo", segment: "Barrio Chino → El Álamo", segmentDist: "10–20 km", segmentTime: "10–20 min", totalDist: "272 km", totalTime: "4 h 20 min", zone: "Ica a Pisco" },
+    { id: 24, name: "Villacurí", segment: "El Álamo → San Clemente", segmentDist: "35–45 km", segmentTime: "30–40 min", totalDist: "292 km", totalTime: "4 h 40 min", zone: "Ica a Pisco" },
+    { id: 25, name: "San Clemente", segment: "El Álamo → San Clemente", segmentDist: "35–45 km", segmentTime: "30–40 min", totalDist: "312 km", totalTime: "5 h 00 min", zone: "Ica a Pisco" },
+    { id: 26, name: "Independencia", segment: "San Clemente → Pisco", segmentDist: "5–10 km", segmentTime: "10–15 min", totalDist: "316 km", totalTime: "5 h 08 min", zone: "Ica a Pisco" },
+    { id: 27, name: "Pisco", segment: "San Clemente → Pisco", segmentDist: "5–10 km", segmentTime: "10–15 min", totalDist: "320 km", totalTime: "5 h 15 min", zone: "Ica a Pisco" },
+    { id: 28, name: "Pisco – Chincha", segment: "Pisco → Chincha Alta", segmentDist: "35–45 km", segmentTime: "30–40 min", totalDist: "332 km", totalTime: "5 h 25 min", zone: "Pisco a Chincha" },
+    { id: 29, name: "Túpac Amaru Inca", segment: "Pisco → Chincha Alta", segmentDist: "35–45 km", segmentTime: "30–40 min", totalDist: "338 km", totalTime: "5 h 30 min", zone: "Pisco a Chincha" },
+    { id: 30, name: "Chincha Baja", segment: "Pisco → Chincha Alta", segmentDist: "35–45 km", segmentTime: "30–40 min", totalDist: "348 km", totalTime: "5 h 40 min", zone: "Pisco a Chincha" },
+    { id: 31, name: "Tambo de Mora (desvío)", segment: "Pisco → Chincha Alta", segmentDist: "35–45 km", segmentTime: "30–40 min", totalDist: "354 km", totalTime: "5 h 48 min", zone: "Pisco a Chincha" },
+    { id: 32, name: "Chincha Alta", segment: "Pisco → Chincha Alta", segmentDist: "35–45 km", segmentTime: "30–40 min", totalDist: "360 km", totalTime: "5 h 55 min", zone: "Pisco a Chincha" },
+    { id: 33, name: "Sunampe", segment: "Chincha Alta → Grocio Prado", segmentDist: "3–5 km", segmentTime: "5–10 min", totalDist: "362 km", totalTime: "6 h 00 min", zone: "Pisco a Chincha" },
+    { id: 34, name: "Pueblo Nuevo", segment: "Chincha Alta → Grocio Prado", segmentDist: "3–5 km", segmentTime: "5–10 min", totalDist: "363 km", totalTime: "6 h 02 min", zone: "Pisco a Chincha" },
+    { id: 35, name: "Grocio Prado", segment: "Chincha Alta → Grocio Prado", segmentDist: "3–5 km", segmentTime: "5–10 min", totalDist: "364 km", totalTime: "6 h 05 min", zone: "Pisco a Chincha" },
+    { id: 36, name: "Jahuay", segment: "Grocio Prado → Jahuay", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "376 km", totalTime: "6 h 20 min", zone: "Pisco a Chincha" },
+    { id: 37, name: "Chincha – Cañete", segment: "Jahuay → Nuevo Cañete", segmentDist: "20–30 km", segmentTime: "20–30 min", totalDist: "388 km", totalTime: "6 h 32 min", zone: "Chincha a Cañete" },
+    { id: 38, name: "Nuevo Ayacucho", segment: "Jahuay → Nuevo Cañete", segmentDist: "20–30 km", segmentTime: "20–30 min", totalDist: "394 km", totalTime: "6 h 38 min", zone: "Chincha a Cañete" },
+    { id: 39, name: "Nuevo Cañete", segment: "Jahuay → Nuevo Cañete", segmentDist: "20–30 km", segmentTime: "20–30 min", totalDist: "401 km", totalTime: "6 h 45 min", zone: "Chincha a Cañete" },
+    { id: 40, name: "Brisas de Concón", segment: "Nuevo Cañete → Cerro Azul", segmentDist: "10–20 km", segmentTime: "15–20 min", totalDist: "408 km", totalTime: "6 h 55 min", zone: "Chincha a Cañete" },
+    { id: 41, name: "San Vicente de Cañete", segment: "Cerro Azul → San Vicente de Cañete", segmentDist: "12–15 km", segmentTime: "15–20 min", totalDist: "430 km", totalTime: "7 h 20 min", zone: "Chincha a Cañete" },
+    { id: 42, name: "Cerro Azul", segment: "Nuevo Cañete → Cerro Azul", segmentDist: "10–20 km", segmentTime: "15–20 min", totalDist: "416 km", totalTime: "7 h 05 min", zone: "Chincha a Cañete" },
+    { id: 43, name: "Asia", segment: "San Vicente → Asia", segmentDist: "40–45 km", segmentTime: "35–45 min", totalDist: "472 km", totalTime: "8 h 00 min", zone: "Cañete a Playas" },
+    { id: 44, name: "Palma Alta", segment: "Asia → Bujama", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "478 km", totalTime: "8 h 06 min", zone: "Cañete a Playas" },
+    { id: 45, name: "9 de Octubre", segment: "Asia → Bujama", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "480 km", totalTime: "8 h 09 min", zone: "Cañete a Playas" },
+    { id: 46, name: "Bujama", segment: "Asia → Bujama", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "484 km", totalTime: "8 h 15 min", zone: "Cañete a Playas" },
+    { id: 47, name: "Mala", segment: "Bujama → Mala", segmentDist: "5–10 km", segmentTime: "10 min", totalDist: "492 km", totalTime: "8 h 25 min", zone: "Cañete a Playas" },
+    { id: 48, name: "San Antonio", segment: "Mala → San Antonio", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "504 km", totalTime: "8 h 40 min", zone: "Cañete a Playas" },
+    { id: 49, name: "Santa Cruz de Flores (desvío)", segment: "San Antonio → Chilca", segmentDist: "15–20 km", segmentTime: "15–20 min", totalDist: "512 km", totalTime: "8 h 50 min", zone: "Cañete a Playas" },
+    { id: 50, name: "Cañete – Lima", segment: "San Antonio → Chilca", segmentDist: "15–20 km", segmentTime: "15–20 min", totalDist: "516 km", totalTime: "8 h 55 min", zone: "Cañete a Lima" },
+    { id: 51, name: "Chilca", segment: "San Antonio → Chilca", segmentDist: "15–20 km", segmentTime: "15–20 min", totalDist: "522 km", totalTime: "9 h 00 min", zone: "Cañete a Lima" },
+    { id: 52, name: "Pucusana", segment: "Chilca → Pucusana", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "534 km", totalTime: "9 h 15 min", zone: "Cañete a Lima" },
+    { id: 53, name: "Santa María del Mar", segment: "Pucusana → San Bartolo", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "540 km", totalTime: "9 h 22 min", zone: "Cañete a Lima" },
+    { id: 54, name: "San Bartolo", segment: "Pucusana → San Bartolo", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "546 km", totalTime: "9 h 30 min", zone: "Cañete a Lima" },
+    { id: 55, name: "Punta Negra", segment: "San Bartolo → Punta Negra", segmentDist: "5–8 km", segmentTime: "5–10 min", totalDist: "552 km", totalTime: "9 h 40 min", zone: "Cañete a Lima" },
+    { id: 56, name: "Punta Hermosa", segment: "Punta Negra → Punta Hermosa", segmentDist: "5–8 km", segmentTime: "5–10 min", totalDist: "558 km", totalTime: "9 h 50 min", zone: "Cañete a Lima" },
+    { id: 57, name: "Lurín", segment: "Punta Hermosa → Lurín", segmentDist: "10–15 km", segmentTime: "10–15 min", totalDist: "570 km", totalTime: "10 h 05 min", zone: "Lima Metropolitana" },
+    { id: 58, name: "Villa El Salvador", segment: "Lurín → Villa El Salvador", segmentDist: "10–15 km", segmentTime: "15–20 min", totalDist: "582 km", totalTime: "10 h 25 min", zone: "Lima Metropolitana" },
+    { id: 59, name: "Atocongo", segment: "Villa El Salvador → Atocongo", segmentDist: "8–12 km", segmentTime: "15–25 min", totalDist: "592 km", totalTime: "10 h 45 min", zone: "Lima Metropolitana" },
+    { id: 60, name: "Villa María del Triunfo", segment: "Atocongo → Lima centro", segmentDist: "15–25 km", segmentTime: "30–50 min", totalDist: "600 km", totalTime: "11 h 00 min", zone: "Lima Metropolitana" },
+    { id: 61, name: "Lima", segment: "Atocongo → Lima centro", segmentDist: "15–25 km", segmentTime: "30–50 min", totalDist: "612 km", totalTime: "11 h 30 min", zone: "Lima Metropolitana" },
   ];
   const el = (selector, root = document) => root.querySelector(selector);
   const all = (selector, root = document) =>
@@ -61,15 +110,15 @@
     topbarTitle: el("#topbar-title"),
     topbarSubtitle: el("#topbar-subtitle"),
     navTripLabel: el("#nav-trip-label"),
+    navTripButton: el('.nav-link[data-view="viaje"]'),
     navStopLabel: el("#nav-stop-label"),
     navHistoryLabel: el("#nav-history-label"),
     userAvatar: el("#user-avatar"),
     userName: el("#user-name"),
     userRole: el("#user-role"),
-    roleToggle: el("#role-toggle"),
-    roleToggleLabel: el("#role-toggle-label"),
     welcomeName: el("#welcome-name"),
     welcomeDescription: el("#welcome-description"),
+    headingActionButton: el(".heading-action"),
     headingActionLabel: el("#heading-action-label"),
     upcomingTitle: el("#upcoming-title"),
     upcomingKicker: el("#upcoming-kicker"),
@@ -109,7 +158,60 @@
     pendingCount: el("#pending-count"),
     todayLabel: el("#today-label"),
     form: el("#request-form"),
+    driverStopPicker: el("#driver-stop-picker"),
+    passengerStopPicker: el("#passenger-stop-picker"),
+    openStopPicker: el("#open-stop-picker"),
+    stopPickerOverlay: el("#stop-picker-overlay"),
+    stopPickerDialog: el("#stop-picker-dialog"),
+    closeStopPicker: el("#close-stop-picker"),
+    stopPickerSearch: el("#stop-picker-search"),
+    stopPickerZones: el("#stop-picker-zones"),
+    stopPickerResultsCount: el("#stop-picker-results-count"),
+    stopPickerList: el("#stop-picker-list"),
+    stopPickerEmpty: el("#stop-picker-empty"),
+    stopPickerBus: el("#stop-picker-bus"),
+    stopPickerTripLine: el("#stop-picker-trip-line"),
+    stopPickerTripGlow: el(".stop-picker-trip-glow"),
+    stopPickerProgressCaption: el(".stop-picker-progress-caption"),
+    stopPickerProgressLabel: el("#stop-picker-progress-label"),
+    stopPickerProgressPercent: el("#stop-picker-progress-percent"),
+    stopPickerSelectedTitle: el("#stop-picker-selected-title"),
+    stopPickerSelectedDetails: el("#stop-picker-selected-details"),
+    confirmStopPicker: el("#confirm-stop-picker"),
+    selectedStopName: el("#selected-stop-name"),
+    selectedStopMeta: el("#selected-stop-meta"),
+    stopSearchInput: el("#stop-search-input"),
     stopSelect: el("#stop-select"),
+    stopPreviewBox: el("#stop-preview-box"),
+    previewSegment: el("#preview-segment"),
+    previewStopName: el("#preview-stop-name"),
+    previewSegmentDist: el("#preview-segment-dist"),
+    previewSegmentTime: el("#preview-segment-time"),
+    previewTotalDist: el("#preview-total-dist"),
+    previewTotalTime: el("#preview-total-time"),
+    wizardPanel1: el("#wizard-panel-1"),
+    wizardPanel2: el("#wizard-panel-2"),
+    wizardPanel3: el("#wizard-panel-3"),
+    wizardPanelSuccess: el("#wizard-panel-success"),
+    wizardGotoStep2: el("#wizard-goto-step-2"),
+    wizardBackStep1: el("#wizard-back-step-1"),
+    wizardGotoStep3: el("#wizard-goto-step-3"),
+    wizardBackStep2: el("#wizard-back-step-2"),
+    step2StopName: el("#step-2-stop-name"),
+    confirmStopName: el("#confirm-stop-name"),
+    confirmSegmentName: el("#confirm-segment-name"),
+    confirmSegmentDistance: el("#confirm-segment-distance"),
+    confirmSegmentTime: el("#confirm-segment-time"),
+    confirmTotalDistance: el("#confirm-total-distance"),
+    confirmEstArrival: el("#confirm-est-arrival"),
+    confirmPassengersPill: el("#confirm-passengers-pill"),
+    btnViewConfirmations: el("#btn-view-confirmations"),
+    btnNewStopRequest: el("#btn-new-stop-request"),
+    successSummary: el("#success-summary"),
+    stepIndicator1: el("#step-indicator-1"),
+    stepIndicator2: el("#step-indicator-2"),
+    stepIndicator3: el("#step-indicator-3"),
+    passengerChips: all(".chip-btn"),
     passengerCount: el("#passenger-count"),
     passengerUnit: el("#passenger-unit"),
     formError: el("#form-error"),
@@ -127,11 +229,20 @@
     passengerDestination: el("#passenger-destination"),
     passengerRequestStop: el("#passenger-request-stop"),
     passengerDestinationNote: el("#passenger-destination-note"),
+    modeScreen: el("#mode-selection-screen"),
+    modeBtnPasajero: el("#mode-btn-pasajero"),
+    modeBtnConductor: el("#mode-btn-conductor"),
+    openModeScreenBtn: el("#open-mode-screen"),
   };
+  if (refs.stopPickerOverlay && refs.stopPickerOverlay.parentElement !== document.body) {
+    document.body.appendChild(refs.stopPickerOverlay);
+  }
   let state = loadState();
   let activeFilter = "todas";
+  let activeStopZone = "Todas";
   let toastTimer = null;
   let activeView = "viaje";
+  let pendingStopName = "";
 
   function loadState() {
     try {
@@ -144,8 +255,8 @@
         )
           ? saved.roadCondition
           : "clear",
-        passengerDestination: PASSENGER_DESTINATIONS.includes(
-          saved.passengerDestination,
+        passengerDestination: ROUTE_STOPS.some(
+          (s) => s.name === saved.passengerDestination,
         )
           ? saved.passengerDestination
           : "",
@@ -229,6 +340,9 @@
 
   function updateRoleContent() {
     const passengerMode = document.body.dataset.mode === "pasajero";
+    refs.navTripButton.hidden = passengerMode;
+    refs.driverStopPicker.hidden = passengerMode;
+    refs.passengerStopPicker.hidden = !passengerMode;
     refs.driverPanels.forEach((panel) => {
       panel.hidden = passengerMode;
     });
@@ -238,22 +352,8 @@
     refs.userAvatar.textContent = passengerMode ? "AE" : "LM";
     refs.userName.textContent = passengerMode ? PASSENGER_NAME : "Luis Manrique";
     refs.userRole.textContent = passengerMode ? "Vista pasajero" : "Conductor";
-    refs.roleToggle.setAttribute("aria-pressed", String(passengerMode));
-    refs.roleToggle.setAttribute(
-      "aria-label",
-      passengerMode
-        ? "Cambiar a la vista del conductor"
-        : "Cambiar a la vista de pasajero",
-    );
-    refs.roleToggle.title = passengerMode
-      ? "Cambiar a la vista del conductor"
-      : "Cambiar a la vista de pasajero";
-    refs.roleToggleLabel.textContent = passengerMode
-      ? "Vista conductor"
-      : "Vista pasajero";
-    refs.navTripLabel.textContent = passengerMode
-      ? "Mi viaje"
-      : "Estado del viaje";
+    refs.navTripLabel.textContent = "Estado del viaje";
+    refs.headingActionButton.hidden = passengerMode;
     refs.navStopLabel.textContent = passengerMode
       ? "Pedir mi parada"
       : "Solicitar parada";
@@ -313,40 +413,41 @@
       ? "¿Dónde bajarás?"
       : "¿Dónde bajarán?";
     refs.stopHelp.textContent = passengerMode
-      ? "Elige el punto donde bajarás."
+      ? "Abre el selector para comparar las paradas de la ruta."
       : "Elige el punto donde bajarán los pasajeros.";
-    refs.passengerLabelRow.hidden = passengerMode;
-    refs.passengerNumberStepper.hidden = passengerMode;
-    refs.passengerHelp.hidden = passengerMode;
     refs.requestSecureNote.textContent = passengerMode
       ? "Revisa tu destino antes de enviar."
       : "Revisa la parada y la cantidad antes de enviar.";
     refs.requestStepOneTitle.textContent = passengerMode
-      ? "Elige tu destino"
-      : "Elige una parada";
+      ? "1. Elige tu destino"
+      : "1. Elige una parada";
     refs.requestStepOneCopy.textContent = passengerMode
       ? "Selecciona dónde bajarás"
       : "Selecciona un punto de la ruta";
     refs.requestStepTwoTitle.textContent = passengerMode
-      ? "Prepara tu llegada"
-      : "Indica pasajeros";
+      ? "2. Indica pasajeros"
+      : "2. Indica pasajeros";
     refs.requestStepTwoCopy.textContent = passengerMode
-      ? "Recuerda dónde bajarás"
+      ? "¿Cuántos van a bajar?"
       : "Cuéntalos antes de continuar";
-    refs.requestStepThreeTitle.textContent = "Envía la solicitud";
+    refs.requestStepThreeTitle.textContent = passengerMode
+      ? "3. Confirmación"
+      : "3. Envía la solicitud";
     refs.requestStepThreeCopy.textContent = passengerMode
-      ? "Sigue su estado en este viaje"
+      ? "Distancia y tiempo en bus"
       : "Podrás seguir su estado";
-    if (passengerMode) updatePassengerCount(1);
   }
 
   function setView(view, shouldScroll = true) {
     const passengerMode = document.body.dataset.mode === "pasajero";
-    if (passengerMode && view === "solicitar" && state.passengerDestination) {
-      if (state.passengerDestination === "Lima") view = "viaje";
-      else {
-        refs.stopSelect.value = state.passengerDestination;
-        updatePassengerCount(1);
+    if (passengerMode && view === "viaje") view = "solicitar";
+    if (view === "solicitar") {
+      if (state.passengerDestination) {
+        if (refs.stopSelect) refs.stopSelect.value = state.passengerDestination;
+        updateStopPreview(state.passengerDestination);
+      }
+      if (wizardStep === "success") {
+        setWizardStep(1);
       }
     }
     const copy = (passengerMode ? passengerViewCopy : viewCopy)[view];
@@ -411,19 +512,321 @@
     refs.roadConditionNote.textContent = roadCopy[state.roadCondition];
   }
 
+  let wizardStep = 1;
+
+  function getStopData(stopName) {
+    if (!stopName) return null;
+    return ROUTE_STOPS.find((s) => s.name === stopName) || null;
+  }
+
+  function populateStopSelects() {
+    if (!refs.stopSelect) return;
+
+    const zones = {};
+    ROUTE_STOPS.forEach((stop) => {
+      if (!zones[stop.zone]) zones[stop.zone] = [];
+      zones[stop.zone].push(stop);
+    });
+
+    const buildOptionsHtml = (promptText = "Selecciona una parada") => {
+      let html = `<option value="">${promptText}</option>`;
+      for (const [zone, stops] of Object.entries(zones)) {
+        html += `<optgroup label="${escapeHtml(zone)}">`;
+        stops.forEach((stop) => {
+          html += `<option value="${escapeHtml(stop.name)}">${escapeHtml(stop.name)} (${escapeHtml(stop.segmentDist)})</option>`;
+        });
+        html += `</optgroup>`;
+      }
+      return html;
+    };
+
+    refs.stopSelect.innerHTML = buildOptionsHtml("Selecciona tu parada de destino (61 paradas)");
+    if (refs.passengerDestination) {
+      refs.passengerDestination.innerHTML = buildOptionsHtml("Selecciona tu destino");
+    }
+  }
+
+  function normalizeStopSearch(value) {
+    return String(value)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function updateStopPickerSelection() {
+    if (!refs.selectedStopName || !refs.stopSelect) return;
+    const stop = getStopData(refs.stopSelect.value);
+    if (!stop) {
+      refs.selectedStopName.textContent = "Selecciona tu parada";
+      refs.selectedStopMeta.textContent = "Marcona → Lima · Ver distancias y tiempos";
+      return;
+    }
+    refs.selectedStopName.textContent = stop.name;
+    refs.selectedStopMeta.textContent = `${stop.segment} · ${stop.totalDist} desde Marcona · ${stop.totalTime}`;
+  }
+
+  function updateStopPickerRoute(stopName, animateLabel = false) {
+    const stop = getStopData(stopName);
+    const finalStop = ROUTE_STOPS[ROUTE_STOPS.length - 1];
+    const totalDistance =
+      Number(String(finalStop.totalDist).match(/[\d.]+/)?.[0]) || 612;
+    const selectedDistance = stop
+      ? Number(String(stop.totalDist).match(/[\d.]+/)?.[0]) || 0
+      : 0;
+    const progress = Math.min(
+      100,
+      Math.max(0, (selectedDistance / totalDistance) * 100),
+    );
+    const trackWidth = refs.stopPickerTripLine.clientWidth;
+    const busWidth = refs.stopPickerBus.offsetWidth || 44;
+    const edgeInset = Math.min(busWidth / 2 + 14, trackWidth / 2);
+    const travelWidth = Math.max(0, trackWidth - edgeInset * 2);
+    const busPosition = edgeInset + (travelWidth * progress) / 100;
+
+    refs.stopPickerTripLine.style.setProperty(
+      "--bus-edge-inset",
+      `${edgeInset}px`,
+    );
+    refs.stopPickerBus.style.left = `${busPosition}px`;
+    refs.stopPickerTripGlow.style.transform = `scaleX(${progress / 100})`;
+    refs.stopPickerTripLine.setAttribute("aria-valuenow", String(Math.round(progress)));
+    refs.stopPickerProgressPercent.textContent = `${Math.round(progress)}%`;
+    if (animateLabel) {
+      refs.stopPickerProgressCaption.classList.remove("is-updating");
+      void refs.stopPickerProgressCaption.offsetWidth;
+      refs.stopPickerProgressCaption.classList.add("is-updating");
+      refs.stopPickerBus.classList.remove("is-driving");
+      void refs.stopPickerBus.offsetWidth;
+      refs.stopPickerBus.classList.add("is-driving");
+    }
+
+    if (!stop) {
+      refs.stopPickerProgressLabel.textContent =
+        "Selecciona una parada para ver qué tan cerca está de Lima.";
+      refs.stopPickerSelectedTitle.textContent = "Elige una parada";
+      refs.stopPickerSelectedDetails.textContent =
+        "Verás aquí el resumen de tu parada.";
+      refs.confirmStopPicker.disabled = true;
+      return;
+    }
+
+    const remainingDistance = Math.max(0, Math.round(totalDistance - selectedDistance));
+    refs.stopPickerProgressLabel.textContent =
+      remainingDistance === 0
+        ? "Llegaste a Lima · destino final"
+        : `${stop.name} · a ${remainingDistance} km aprox. de Lima`;
+    refs.stopPickerSelectedTitle.textContent = stop.name;
+    refs.stopPickerSelectedDetails.textContent =
+      remainingDistance === 0
+        ? `Destino final · ${stop.totalDist} recorridos · ${stop.totalTime}`
+        : `${stop.totalDist} recorridos · ${remainingDistance} km hasta Lima · ${stop.totalTime} en bus`;
+    refs.confirmStopPicker.disabled = false;
+  }
+
+  function renderStopPicker() {
+    if (!refs.stopPickerList || !refs.stopPickerZones) return;
+    const query = normalizeStopSearch(refs.stopPickerSearch.value);
+    const matches = ROUTE_STOPS.filter((stop) => {
+      const searchable = normalizeStopSearch(
+        `${stop.name} ${stop.segment} ${stop.zone} ${stop.totalDist} ${stop.totalTime}`,
+      );
+      return (
+        (activeStopZone === "Todas" || stop.zone === activeStopZone) &&
+        (!query || searchable.includes(query))
+      );
+    });
+    const groups = {};
+    matches.forEach((stop) => {
+      if (!groups[stop.zone]) groups[stop.zone] = [];
+      groups[stop.zone].push(stop);
+    });
+
+    const zones = ["Todas", ...new Set(ROUTE_STOPS.map((stop) => stop.zone))];
+    refs.stopPickerZones.innerHTML = zones
+      .map((zone) => {
+        const count =
+          zone === "Todas"
+            ? ROUTE_STOPS.length
+            : ROUTE_STOPS.filter((stop) => stop.zone === zone).length;
+        return `<button class="stop-picker-zone${zone === activeStopZone ? " is-active" : ""}" type="button" data-stop-zone="${escapeHtml(zone)}" aria-pressed="${zone === activeStopZone}">${escapeHtml(zone === "Todas" ? "Todos los tramos" : zone)}<span>${count}</span></button>`;
+      })
+      .join("");
+
+    refs.stopPickerResultsCount.textContent = `${matches.length} ${matches.length === 1 ? "parada disponible" : "paradas disponibles"}`;
+    refs.stopPickerEmpty.hidden = matches.length > 0;
+    refs.stopPickerList.hidden = matches.length === 0;
+    refs.stopPickerList.innerHTML = Object.entries(groups)
+      .map(
+        ([zone, stops]) => `
+          <section class="stop-picker-group" aria-label="${escapeHtml(zone)}">
+            <h3 class="stop-picker-group-title"><span>${escapeHtml(zone)}</span><small>${stops.length} ${stops.length === 1 ? "parada" : "paradas"}</small></h3>
+            <div class="stop-picker-group-options">
+              ${stops
+                .map((stop) => {
+                  const selected = stop.name === pendingStopName;
+                  return `
+                    <button class="stop-picker-option${selected ? " is-selected" : ""}" type="button" data-stop-name="${escapeHtml(stop.name)}" aria-pressed="${selected}" aria-label="Seleccionar ${escapeHtml(stop.name)}; ${escapeHtml(stop.segment)}; ${escapeHtml(stop.totalDist)} desde Marcona, ${escapeHtml(stop.totalTime)} aproximadamente">
+                      <span class="stop-picker-option-number">${String(stop.id).padStart(2, "0")}</span>
+                      <span class="stop-picker-option-copy">
+                        <span class="stop-picker-option-title">${escapeHtml(stop.name)}</span>
+                        <span class="stop-picker-option-segment"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg><span>${escapeHtml(stop.segment)}</span></span>
+                        <span class="stop-picker-option-details">
+                          <span class="stop-picker-option-metric"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><small>Desde Marcona</small><strong>${escapeHtml(stop.totalDist)} · ${escapeHtml(stop.totalTime)}</strong></span></span>
+                          <span class="stop-picker-option-metric"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 10 6l4 8 3-5 3 9"/><path d="M4 21h16"/></svg><span><small>Este tramo</small><strong>${escapeHtml(stop.segmentDist)} · ${escapeHtml(stop.segmentTime)}</strong></span></span>
+                        </span>
+                      </span>
+                      <span class="stop-picker-option-check" aria-hidden="true">${iconCheck()}</span>
+                    </button>`;
+                })
+                .join("")}
+            </div>
+          </section>`,
+      )
+      .join("");
+  }
+
+  function openStopPicker() {
+    if (!refs.stopPickerOverlay) return;
+    activeStopZone = "Todas";
+    pendingStopName = refs.stopSelect.value;
+    refs.stopPickerSearch.value = "";
+    el(".stop-picker-results-scroll", refs.stopPickerDialog).scrollTop = 0;
+    refs.stopPickerBus.classList.remove("is-driving");
+    refs.stopPickerBus.classList.add("is-resetting");
+    refs.stopPickerTripGlow.classList.add("is-resetting");
+    refs.stopPickerBus.style.left = "36px";
+    refs.stopPickerTripGlow.style.transform = "scaleX(0)";
+    renderStopPicker();
+    refs.stopPickerOverlay.hidden = false;
+    document.body.classList.add("stop-picker-open");
+    refs.stopPickerSearch.focus({ preventScroll: true });
+    window.requestAnimationFrame(() => {
+      const trackWidth = refs.stopPickerTripLine.clientWidth;
+      const edgeInset = Math.min(
+        (refs.stopPickerBus.offsetWidth || 44) / 2 + 14,
+        trackWidth / 2,
+      );
+      refs.stopPickerTripLine.style.setProperty(
+        "--bus-edge-inset",
+        `${edgeInset}px`,
+      );
+      refs.stopPickerBus.style.left = `${edgeInset}px`;
+      refs.stopPickerBus.classList.remove("is-resetting");
+      refs.stopPickerTripGlow.classList.remove("is-resetting");
+      window.requestAnimationFrame(() => {
+        updateStopPickerRoute(pendingStopName, true);
+      });
+    });
+  }
+
+  function closeStopPicker(restoreFocus = true) {
+    if (!refs.stopPickerOverlay || refs.stopPickerOverlay.hidden) return;
+    refs.stopPickerOverlay.hidden = true;
+    document.body.classList.remove("stop-picker-open");
+    if (restoreFocus && refs.openStopPicker) refs.openStopPicker.focus();
+  }
+
+  function updateStopPreview(stopName) {
+    updateStopPickerSelection();
+    const data = getStopData(stopName);
+    if (!data) {
+      if (refs.stopPreviewBox) refs.stopPreviewBox.hidden = true;
+      if (refs.wizardGotoStep2) refs.wizardGotoStep2.disabled = true;
+      return;
+    }
+
+    if (refs.stopPreviewBox) {
+      refs.stopPreviewBox.hidden = false;
+      if (refs.previewSegment) refs.previewSegment.textContent = `Tramo: ${data.segment}`;
+      if (refs.previewStopName) refs.previewStopName.textContent = data.name;
+      if (refs.previewSegmentDist) refs.previewSegmentDist.textContent = data.segmentDist;
+      if (refs.previewSegmentTime) refs.previewSegmentTime.textContent = data.segmentTime;
+      if (refs.previewTotalDist) refs.previewTotalDist.textContent = data.totalDist;
+      if (refs.previewTotalTime) refs.previewTotalTime.textContent = data.totalTime;
+    }
+
+    if (refs.wizardGotoStep2) {
+      refs.wizardGotoStep2.disabled = false;
+    }
+    showFormError("");
+  }
+
+  function setWizardStep(step) {
+    wizardStep = step;
+    const selectedStop = refs.stopSelect ? refs.stopSelect.value : "";
+    const stopData = getStopData(selectedStop);
+    const passengers = Number(refs.passengerCount ? refs.passengerCount.value : 1) || 1;
+
+    // Control de visibilidad de paneles
+    if (refs.wizardPanel1) refs.wizardPanel1.hidden = step !== 1;
+    if (refs.wizardPanel2) refs.wizardPanel2.hidden = step !== 2;
+    if (refs.wizardPanel3) refs.wizardPanel3.hidden = step !== 3;
+    if (refs.wizardPanelSuccess) refs.wizardPanelSuccess.hidden = step !== "success";
+
+    // Indicadores superiores de pasos
+    if (refs.stepIndicator1 && refs.stepIndicator2 && refs.stepIndicator3) {
+      refs.stepIndicator1.classList.remove("is-current", "is-done");
+      refs.stepIndicator2.classList.remove("is-current", "is-done");
+      refs.stepIndicator3.classList.remove("is-current", "is-done");
+
+      if (step === 1) {
+        refs.stepIndicator1.classList.add("is-current");
+      } else if (step === 2) {
+        refs.stepIndicator1.classList.add("is-done");
+        refs.stepIndicator2.classList.add("is-current");
+      } else if (step === 3) {
+        refs.stepIndicator1.classList.add("is-done");
+        refs.stepIndicator2.classList.add("is-done");
+        refs.stepIndicator3.classList.add("is-current");
+      } else if (step === "success") {
+        refs.stepIndicator1.classList.add("is-done");
+        refs.stepIndicator2.classList.add("is-done");
+        refs.stepIndicator3.classList.add("is-done");
+      }
+    }
+
+    if (step === 2) {
+      if (refs.step2StopName) {
+        refs.step2StopName.textContent = selectedStop || "tu parada seleccionada";
+      }
+      updatePassengerCount(passengers);
+    }
+
+    if (step === 3 && stopData) {
+      if (refs.confirmStopName) refs.confirmStopName.textContent = stopData.name;
+      if (refs.confirmSegmentName) refs.confirmSegmentName.textContent = `Tramo: ${stopData.segment}`;
+      if (refs.confirmSegmentDistance) refs.confirmSegmentDistance.textContent = stopData.segmentDist;
+      if (refs.confirmSegmentTime) refs.confirmSegmentTime.textContent = stopData.segmentTime;
+      if (refs.confirmTotalDistance) refs.confirmTotalDistance.textContent = `Dist. total acumulada: ~${stopData.totalDist}`;
+      if (refs.confirmEstArrival) refs.confirmEstArrival.textContent = `Tiempo de viaje aprox.: ~${stopData.totalTime}`;
+      if (refs.confirmPassengersPill) {
+        refs.confirmPassengersPill.textContent = `${passengers} ${passengers === 1 ? "pasajero" : "pasajeros"}`;
+      }
+    }
+
+    showFormError("");
+  }
+
   function updatePassengerTools() {
     const destination = state.passengerDestination;
-    refs.passengerDestination.value = destination;
-    refs.passengerRequestStop.disabled = !destination;
+    if (refs.passengerDestination) refs.passengerDestination.value = destination;
+    if (refs.passengerRequestStop) refs.passengerRequestStop.disabled = !destination;
+
+    const stopData = getStopData(destination);
 
     if (!destination) {
       refs.passengerRequestStop.textContent = "Solicitar esta parada";
       refs.passengerDestinationNote.textContent =
-        "Selecciona un destino para solicitar la parada.";
+        "Selecciona un destino para ver las opciones y distancia.";
     } else if (destination === "Lima") {
-      refs.passengerRequestStop.textContent = "Ver mi recorrido";
+      refs.passengerRequestStop.textContent = "Ver mis avisos";
       refs.passengerDestinationNote.textContent =
-        "Lima es el destino final de este recorrido.";
+        "Lima es el destino final de este recorrido (~612 km).";
+    } else if (stopData) {
+      refs.passengerRequestStop.textContent = "Solicitar bajada en " + destination;
+      refs.passengerDestinationNote.textContent =
+        `Tramo: ${stopData.segment} · Distancia: ${stopData.segmentDist} (${stopData.segmentTime})`;
     } else {
       refs.passengerRequestStop.textContent = "Solicitar esta parada";
       refs.passengerDestinationNote.textContent =
@@ -431,24 +834,53 @@
     }
   }
 
-  function toggleRoleMode() {
-    document.body.dataset.mode =
-      document.body.dataset.mode === "pasajero" ? "conductor" : "pasajero";
-    setView(activeView, false);
+  function showModeScreen() {
+    if (!refs.modeScreen) return;
+    refs.modeScreen.hidden = false;
+    refs.modeScreen.classList.remove("is-leaving");
+    document.body.classList.add("mode-screen-open");
+    if (refs.modeBtnPasajero) {
+      refs.modeBtnPasajero.focus();
+    }
+  }
+
+  function hideModeScreen() {
+    if (!refs.modeScreen) return;
+    refs.modeScreen.classList.add("is-leaving");
+    document.body.classList.remove("mode-screen-open");
+    setTimeout(() => {
+      refs.modeScreen.classList.remove("is-leaving");
+      refs.modeScreen.hidden = true;
+    }, 450);
+  }
+
+  function selectMode(targetMode) {
+    document.body.dataset.mode = targetMode;
+    hideModeScreen();
+    setView(targetMode === "pasajero" ? "solicitar" : "viaje", false);
     updateDriverTools();
     updatePassengerTools();
+    render();
+    showToast(
+      "Modo seleccionado",
+      targetMode === "pasajero"
+        ? "Has ingresado como Pasajero."
+        : "Has ingresado como Conductor.",
+    );
   }
 
   function requestPassengerStop() {
     const destination = state.passengerDestination;
     if (!destination) return;
     if (destination === "Lima") {
-      setView("viaje");
+      setView("confirmaciones");
       showToast("Destino final", "Lima es el destino final de este recorrido.");
       return;
     }
-    refs.stopSelect.value = destination;
+    if (refs.stopSelect) refs.stopSelect.value = destination;
     updatePassengerCount(1);
+    updateStopPreview(destination);
+    setWizardStep(1);
     showFormError("");
     setView("solicitar");
   }
@@ -483,7 +915,14 @@
           escapeHtml(item.passengers),
           " ",
           Number(item.passengers) === 1 ? "pasajero" : "pasajeros",
-          ' bajan</span><i class="meta-dot"></i><span>Enviada ',
+          ' bajan</span>',
+          item.segmentDist
+            ? '<i class="meta-dot"></i><span>' +
+              escapeHtml(item.segmentDist) +
+              (item.segmentTime ? " · " + escapeHtml(item.segmentTime) : "") +
+              "</span>"
+            : "",
+          '<i class="meta-dot"></i><span>Enviada ',
           escapeHtml(formatDate(item.requestedAt)),
           "</span></div></div>",
           '<button class="attend-button" type="button" data-attend="',
@@ -530,12 +969,22 @@
           " ",
           Number(item.passengers) === 1 ? "pasajero" : "pasajeros",
           " bajan</span>",
+        ];
+        if (item.segmentDist) {
+          dateDetails.push(
+            '<span class="meta-dot"></span><span>',
+            escapeHtml(item.segmentDist),
+            item.segmentTime ? " (" + escapeHtml(item.segmentTime) + ")" : "",
+            "</span>",
+          );
+        }
+        dateDetails.push(
           '<span class="meta-dot"></span>',
           iconCalendar(),
           "<span>Registrada ",
           escapeHtml(formatDate(item.requestedAt)),
           "</span>",
-        ];
+        );
         if (attended) {
           dateDetails.push(
             '<span class="meta-dot"></span><span>Atendida ',
@@ -606,30 +1055,37 @@
     const bounded = Number.isFinite(parsed)
       ? Math.min(40, Math.max(1, parsed))
       : 1;
-    refs.passengerCount.value = String(bounded);
-    refs.passengerUnit.textContent = bounded === 1 ? "pasajero" : "pasajeros";
+    if (refs.passengerCount) refs.passengerCount.value = String(bounded);
+    if (refs.passengerUnit) {
+      refs.passengerUnit.textContent = bounded === 1 ? "pasajero" : "pasajeros";
+    }
+    if (refs.passengerChips) {
+      refs.passengerChips.forEach((chip) => {
+        const active = Number(chip.dataset.qty) === bounded;
+        chip.classList.toggle("is-active", active);
+        chip.setAttribute("aria-pressed", String(active));
+      });
+    }
     return bounded;
   }
 
   function submitRequest(event) {
-    event.preventDefault();
-    const stop = refs.stopSelect.value;
+    if (event) event.preventDefault();
+    const stop = refs.stopSelect ? refs.stopSelect.value : "";
     const passengers =
-      document.body.dataset.mode === "pasajero"
-        ? 1
-        : Number(refs.passengerCount.value);
+      Number(refs.passengerCount ? refs.passengerCount.value : 1) || 1;
+    const stopData = getStopData(stop);
+
     if (!stop) {
-      showFormError(
-        document.body.dataset.mode === "pasajero"
-          ? "Selecciona dónde bajarás para continuar."
-          : "Selecciona una parada para continuar.",
-      );
-      refs.stopSelect.focus();
+      showFormError("Selecciona tu parada de destino antes de continuar.");
+      setWizardStep(1);
+      if (refs.stopSelect) refs.stopSelect.focus();
       return;
     }
     if (!Number.isInteger(passengers) || passengers < 1 || passengers > 40) {
-      showFormError("Indica una cantidad de pasajeros entre 1 y 40.");
-      refs.passengerCount.focus();
+      showFormError("Indica una cantidad de pasajeros válida entre 1 y 40.");
+      setWizardStep(2);
+      if (refs.passengerCount) refs.passengerCount.focus();
       return;
     }
 
@@ -640,29 +1096,39 @@
           : String(Date.now()) + "-" + Math.random().toString(16).slice(2),
       stop,
       passengers,
+      segment: stopData ? stopData.segment : "Marcona → Lima",
+      segmentDist: stopData ? stopData.segmentDist : "",
+      segmentTime: stopData ? stopData.segmentTime : "",
+      totalDist: stopData ? stopData.totalDist : "",
+      totalTime: stopData ? stopData.totalTime : "",
       status: "pending",
       requestedAt: new Date().toISOString(),
     };
     state.requests.unshift(newRequest);
     const saved = saveState();
     render();
-    refs.form.reset();
-    updatePassengerCount(1);
-    showFormError("");
-    activeFilter = "todas";
-    refs.filters.forEach((button) => {
-      const selected = button.dataset.filter === activeFilter;
-      button.classList.toggle("is-selected", selected);
-      button.setAttribute("aria-pressed", String(selected));
-    });
-    setView("confirmaciones");
+
+    if (refs.successSummary && stopData) {
+      refs.successSummary.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <strong style="display:inline-flex; align-items:center; gap:6px;">${iconStop()}${escapeHtml(stopData.name)}</strong>
+          <span style="font-weight:760; color:var(--blue);">${passengers} ${passengers === 1 ? "pasajero" : "pasajeros"}</span>
+        </div>
+        <div style="font-size:12px; color:var(--ink-soft); line-height:1.5;">
+          <strong>Tramo:</strong> ${escapeHtml(stopData.segment)} (${escapeHtml(stopData.segmentDist)} · ${escapeHtml(stopData.segmentTime)})<br>
+          <strong>Distancia acumulada:</strong> ${escapeHtml(stopData.totalDist)}<br>
+          <strong>Tiempo promedio en bus:</strong> ${escapeHtml(stopData.totalTime)}
+        </div>
+      `;
+    }
+    setWizardStep("success");
     showToast(
-      saved ? "Solicitud enviada" : "Solicitud de esta sesión",
+      saved ? "Solicitud enviada al conductor" : "Solicitud registrada",
       stop +
         " · " +
         passengers +
         (passengers === 1 ? " pasajero" : " pasajeros") +
-        (saved ? "" : " · No se guardó al cerrar el navegador."),
+        (stopData ? " · " + stopData.segmentDist : ""),
     );
   }
 
@@ -709,22 +1175,224 @@
     }
   });
 
-  refs.form.addEventListener("submit", submitRequest);
-  refs.stopSelect.addEventListener("change", () => showFormError(""));
-  refs.passengerCount.addEventListener("input", () => {
-    if (refs.passengerCount.value !== "") showFormError("");
+  if (refs.form) refs.form.addEventListener("submit", submitRequest);
+  if (refs.stopSelect) {
+    refs.stopSelect.addEventListener("change", () => {
+      showFormError("");
+      updateStopPreview(refs.stopSelect.value);
+    });
+  }
+  if (refs.openStopPicker) {
+    refs.openStopPicker.addEventListener("click", openStopPicker);
+  }
+  if (refs.closeStopPicker) {
+    refs.closeStopPicker.addEventListener("click", () => closeStopPicker());
+  }
+  if (refs.stopPickerOverlay) {
+    refs.stopPickerOverlay.addEventListener("click", (event) => {
+      if (event.target === refs.stopPickerOverlay) closeStopPicker();
+    });
+  }
+  if (refs.stopPickerSearch) {
+    refs.stopPickerSearch.addEventListener("input", () => {
+      el(".stop-picker-results-scroll", refs.stopPickerDialog).scrollTop = 0;
+      renderStopPicker();
+    });
+    refs.stopPickerSearch.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") event.preventDefault();
+    });
+  }
+  if (refs.stopPickerZones) {
+    refs.stopPickerZones.addEventListener("click", (event) => {
+      const zoneButton = event.target.closest("[data-stop-zone]");
+      if (!zoneButton) return;
+      activeStopZone = zoneButton.dataset.stopZone;
+      el(".stop-picker-results-scroll", refs.stopPickerDialog).scrollTop = 0;
+      renderStopPicker();
+      const activeButton = Array.from(
+        refs.stopPickerZones.querySelectorAll("[data-stop-zone]"),
+      ).find((button) => button.dataset.stopZone === activeStopZone);
+      if (activeButton) activeButton.focus();
+    });
+  }
+  if (refs.stopPickerList) {
+    refs.stopPickerList.addEventListener("click", (event) => {
+      const stopButton = event.target.closest("[data-stop-name]");
+      if (!stopButton) return;
+      pendingStopName = stopButton.dataset.stopName;
+      updateStopPickerRoute(pendingStopName, true);
+      refs.stopPickerList.querySelectorAll("[data-stop-name]").forEach((button) => {
+        const selected = button.dataset.stopName === pendingStopName;
+        button.classList.toggle("is-selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+      });
+      refs.confirmStopPicker.focus();
+    });
+  }
+  if (refs.confirmStopPicker) {
+    refs.confirmStopPicker.addEventListener("click", () => {
+      if (!pendingStopName) return;
+      refs.stopSelect.value = pendingStopName;
+      updateStopPreview(pendingStopName);
+      showFormError("");
+      closeStopPicker();
+    });
+  }
+  if (refs.stopPickerDialog) {
+    refs.stopPickerDialog.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(
+        refs.stopPickerDialog.querySelectorAll(
+          'button:not([disabled]), input:not([disabled])',
+        ),
+      ).filter((element) => !element.closest("[hidden]"));
+      if (!focusable.length) {
+        event.preventDefault();
+        refs.stopPickerDialog.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+  }
+  window.addEventListener("resize", () => {
+    if (refs.stopPickerOverlay && !refs.stopPickerOverlay.hidden) {
+      updateStopPickerRoute(pendingStopName);
+    }
   });
-  el("#passenger-decrease").addEventListener("click", () =>
-    updatePassengerCount(Number(refs.passengerCount.value) - 1),
-  );
-  el("#passenger-increase").addEventListener("click", () =>
-    updatePassengerCount(Number(refs.passengerCount.value) + 1),
-  );
-  el("#toast-close").addEventListener("click", () => {
-    window.clearTimeout(toastTimer);
-    refs.toast.classList.remove("is-visible");
+  if (refs.stopSearchInput) {
+    refs.stopSearchInput.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const groups = refs.stopSelect.querySelectorAll("optgroup");
+      groups.forEach((group) => {
+        let hasVisible = false;
+        const options = group.querySelectorAll("option");
+        options.forEach((opt) => {
+          const match = opt.textContent.toLowerCase().includes(q);
+          opt.hidden = !match;
+          if (match) hasVisible = true;
+        });
+        group.hidden = !hasVisible;
+      });
+
+      if (q) {
+        const firstMatch = ROUTE_STOPS.find((s) =>
+          s.name.toLowerCase().includes(q),
+        );
+        if (firstMatch) {
+          refs.stopSelect.value = firstMatch.name;
+          updateStopPreview(firstMatch.name);
+        }
+      }
+    });
+  }
+  if (refs.passengerCount) {
+    refs.passengerCount.addEventListener("input", () => {
+      if (refs.passengerCount.value !== "") showFormError("");
+      updatePassengerCount(Number(refs.passengerCount.value));
+    });
+  }
+  const btnDec = el("#passenger-decrease");
+  if (btnDec) {
+    btnDec.addEventListener("click", () =>
+      updatePassengerCount(Number(refs.passengerCount.value) - 1),
+    );
+  }
+  const btnInc = el("#passenger-increase");
+  if (btnInc) {
+    btnInc.addEventListener("click", () =>
+      updatePassengerCount(Number(refs.passengerCount.value) + 1),
+    );
+  }
+
+  // Navegación secuencial de 3 pasos
+  if (refs.wizardGotoStep2) {
+    refs.wizardGotoStep2.addEventListener("click", () => {
+      if (!refs.stopSelect.value) {
+        showFormError("Selecciona una parada de destino para continuar.");
+        return;
+      }
+      setWizardStep(2);
+    });
+  }
+  if (refs.wizardBackStep1) {
+    refs.wizardBackStep1.addEventListener("click", () => setWizardStep(1));
+  }
+  if (refs.wizardGotoStep3) {
+    refs.wizardGotoStep3.addEventListener("click", () => {
+      const val = Number(refs.passengerCount.value);
+      if (!val || val < 1 || val > 40) {
+        showFormError("Indica una cantidad de pasajeros válida entre 1 y 40.");
+        return;
+      }
+      setWizardStep(3);
+    });
+  }
+  if (refs.wizardBackStep2) {
+    refs.wizardBackStep2.addEventListener("click", () => setWizardStep(2));
+  }
+
+  if (refs.passengerChips) {
+    refs.passengerChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const qty = Number(chip.dataset.qty);
+        updatePassengerCount(qty);
+      });
+    });
+  }
+
+  if (refs.btnViewConfirmations) {
+    refs.btnViewConfirmations.addEventListener("click", () => {
+      setView("confirmaciones");
+    });
+  }
+  if (refs.btnNewStopRequest) {
+    refs.btnNewStopRequest.addEventListener("click", () => {
+      refs.form.reset();
+      updatePassengerCount(1);
+      if (refs.stopSearchInput) refs.stopSearchInput.value = "";
+      if (refs.stopPickerSearch) refs.stopPickerSearch.value = "";
+      updateStopPreview("");
+      setWizardStep(1);
+    });
+  }
+
+  const toastClose = el("#toast-close");
+  if (toastClose) {
+    toastClose.addEventListener("click", () => {
+      window.clearTimeout(toastTimer);
+      refs.toast.classList.remove("is-visible");
+    });
+  }
+  if (refs.modeBtnPasajero) {
+    refs.modeBtnPasajero.addEventListener("click", () => selectMode("pasajero"));
+  }
+  if (refs.modeBtnConductor) {
+    refs.modeBtnConductor.addEventListener("click", () => selectMode("conductor"));
+  }
+  if (refs.openModeScreenBtn) {
+    refs.openModeScreenBtn.addEventListener("click", showModeScreen);
+  }
+  window.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      refs.stopPickerOverlay &&
+      !refs.stopPickerOverlay.hidden
+    ) {
+      closeStopPicker();
+      return;
+    }
+    if (event.key === "Escape" && refs.modeScreen && !refs.modeScreen.hidden) {
+      hideModeScreen();
+    }
   });
-  refs.roleToggle.addEventListener("click", toggleRoleMode);
   refs.driverChecklist.forEach((input) =>
     input.addEventListener("change", () => {
       state.checklist = refs.driverChecklist
@@ -754,8 +1422,12 @@
   });
   refs.passengerRequestStop.addEventListener("click", requestPassengerStop);
 
+  populateStopSelects();
+  updateStopPickerSelection();
+  setWizardStep(1);
   setView("viaje", false);
   render();
   updateDriverTools();
   updatePassengerTools();
+  showModeScreen();
 })();
