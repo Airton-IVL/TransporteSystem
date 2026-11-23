@@ -4477,7 +4477,7 @@ body.stop-picker-open {
   grid-template-columns: auto minmax(100px, 1fr) auto;
   align-items: center;
   gap: 14px;
-  width: min(760px, 100%);
+  width: 100%;
   margin-top: 11px;
 }
 
@@ -4523,19 +4523,19 @@ body.stop-picker-open {
 }
 
 .stop-picker-trip-line::before {
-  left: calc(var(--bus-edge-inset, 36px) - 4.5px);
+  left: -4.5px;
 }
 
 .stop-picker-trip-line::after {
-  right: calc(var(--bus-edge-inset, 36px) - 4.5px);
+  right: -4.5px;
   background: #f6c445;
 }
 
 .stop-picker-trip-glow {
   position: absolute;
   inset: -1px 0;
-  left: var(--bus-edge-inset, 36px);
-  right: var(--bus-edge-inset, 36px);
+  left: 0;
+  right: 0;
   border-radius: inherit;
   background: linear-gradient(90deg, #88b4ff, #b4d5ff 62%, #f6c445);
   box-shadow: 0 0 12px rgba(136, 180, 255, 0.6);
@@ -4623,7 +4623,7 @@ body.stop-picker-open {
   display: flex;
   align-items: center;
   gap: 8px;
-  width: min(760px, 100%);
+  width: 100%;
   min-height: 18px;
   margin-top: -1px;
   color: rgba(237, 243, 255, 0.8);

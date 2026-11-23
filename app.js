@@ -583,13 +583,15 @@
     const edgeInset = Math.min(busWidth / 2 + 14, trackWidth / 2);
     const travelWidth = Math.max(0, trackWidth - edgeInset * 2);
     const busPosition = edgeInset + (travelWidth * progress) / 100;
+    const glowProgress =
+      stop && trackWidth > 0 ? busPosition / trackWidth : 0;
 
     refs.stopPickerTripLine.style.setProperty(
       "--bus-edge-inset",
       `${edgeInset}px`,
     );
     refs.stopPickerBus.style.left = `${busPosition}px`;
-    refs.stopPickerTripGlow.style.transform = `scaleX(${progress / 100})`;
+    refs.stopPickerTripGlow.style.transform = `scaleX(${glowProgress})`;
     refs.stopPickerTripLine.setAttribute("aria-valuenow", String(Math.round(progress)));
     refs.stopPickerProgressPercent.textContent = `${Math.round(progress)}%`;
     if (animateLabel) {
@@ -689,7 +691,7 @@
   function openStopPicker() {
     if (!refs.stopPickerOverlay) return;
     activeStopZone = "Todas";
-    pendingStopName = refs.stopSelect.value;
+    pendingStopName = "";
     refs.stopPickerSearch.value = "";
     el(".stop-picker-results-scroll", refs.stopPickerDialog).scrollTop = 0;
     refs.stopPickerBus.classList.remove("is-driving");
@@ -715,7 +717,7 @@
       refs.stopPickerBus.classList.remove("is-resetting");
       refs.stopPickerTripGlow.classList.remove("is-resetting");
       window.requestAnimationFrame(() => {
-        updateStopPickerRoute(pendingStopName, true);
+        updateStopPickerRoute(pendingStopName);
       });
     });
   }
