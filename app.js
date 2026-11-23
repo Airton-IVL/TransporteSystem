@@ -24,6 +24,12 @@
     },
   };
   const passengerViewCopy = {
+    informacion: {
+      eyebrow: "DETALLES DEL RECORRIDO",
+      title: "Información del viaje",
+      description: "Conoce quién conduce, los datos de la unidad y los detalles de tu ruta.",
+      context: "Información del viaje",
+    },
     solicitar: {
       eyebrow: "MI PARADA",
       title: "Pedir mi parada",
@@ -112,9 +118,9 @@
     navTripLabel: el("#nav-trip-label"),
     navTripButton: el('.nav-link[data-view="viaje"]'),
     navStopLabel: el("#nav-stop-label"),
+    passengerInfoButton: el("#nav-passenger-info"),
     navHistoryLabel: el("#nav-history-label"),
-    userAvatar: el("#user-avatar"),
-    userName: el("#user-name"),
+    currentTime: el("#current-time"),
     userRole: el("#user-role"),
     welcomeName: el("#welcome-name"),
     welcomeDescription: el("#welcome-description"),
@@ -316,6 +322,16 @@
     }).format(new Date());
   }
 
+  function updateCurrentTime() {
+    const now = new Date();
+    refs.currentTime.textContent = new Intl.DateTimeFormat("es-PE", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    }).format(now);
+    refs.currentTime.dateTime = now.toISOString();
+  }
+
   function iconStop() {
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.2"/></svg>';
   }
@@ -341,6 +357,7 @@
   function updateRoleContent() {
     const passengerMode = document.body.dataset.mode === "pasajero";
     refs.navTripButton.hidden = passengerMode;
+    refs.passengerInfoButton.hidden = !passengerMode;
     refs.driverStopPicker.hidden = passengerMode;
     refs.passengerStopPicker.hidden = !passengerMode;
     refs.driverPanels.forEach((panel) => {
@@ -349,8 +366,6 @@
     refs.passengerPanels.forEach((panel) => {
       panel.hidden = !passengerMode;
     });
-    refs.userAvatar.textContent = passengerMode ? "AE" : "LM";
-    refs.userName.textContent = passengerMode ? PASSENGER_NAME : "Luis Manrique";
     refs.userRole.textContent = passengerMode ? "Vista pasajero" : "Conductor";
     refs.navTripLabel.textContent = "Estado del viaje";
     refs.headingActionButton.hidden = passengerMode;
@@ -1034,6 +1049,7 @@
     renderHistory();
     renderNavigation();
     refs.todayLabel.textContent = todayText();
+    updateCurrentTime();
   }
 
   function showToast(title, message) {
@@ -1429,6 +1445,7 @@
   setWizardStep(1);
   setView("viaje", false);
   render();
+  window.setInterval(updateCurrentTime, 30_000);
   updateDriverTools();
   updatePassengerTools();
   showModeScreen();
